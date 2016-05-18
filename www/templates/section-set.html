@@ -1,0 +1,56 @@
+<style>
+	.input-label p{
+		font-size: 16px;
+		color: #444;
+
+	}
+</style>
+<ion-view view-title="Section">
+  <ion-content class="padding">
+
+	<div class="list">
+
+		<div class="item item-icon-left item-select"> <!-- class: item-input -->
+		<div class="input-label">
+			<i class="icon ion-star"></i>
+		  	<p>發光模式</p>
+		</div>
+		<select ng-model="thisSection['mode']" ng-options="lightItem.ID as lightItem.Title for lightItem in lightList">
+		</select>
+		</div>
+		<div class="item item-icon-left" ng-click="openTimer()">
+		    <i class="icon ion-ios-clock"></i>
+		    開始時間
+		    <span class="item-note">
+		      {{thisSection['setHour'] | numberFixedLen: 2}}:{{thisSection['setMin'] | numberFixedLen: 2}}
+		    </span>
+		</div>
+
+		<div class="item item-icon-left">
+		    <i class="icon ion-ios-sunny"></i>
+		    亮度
+		    <span class="item-note">
+		      {{thisSection['multiple']}}%
+		    </span>
+		</div>
+		<div class="item range range-positive">
+			<i class="icon ion-ios-lightbulb"></i>
+			<input type="range" name="volume" min="0" max="100" ng-model="thisSection['multiple']">
+			<i class="icon ion-ios-lightbulb-outline"></i>
+		</div>
+
+		  <button class="button button-block button-balanced" ng-click="saveData()">
+		  儲存
+		</button>
+
+	</div>
+<pre>
+
+	ab_section:{{thisSection['ab_section']}}
+	setHour:{{thisSection['setHour']}}
+	setMin:{{thisSection['setMin']}}
+	mode:{{thisSection['mode']}}
+	multiple:{{thisSection['multiple']}}
+</pre>
+  </ion-content>
+</ion-view>

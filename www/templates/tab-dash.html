@@ -1,0 +1,58 @@
+<style>
+  .item-content{
+    padding: 5px!important;
+  }
+</style>
+
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+
+  <ion-list >
+
+    <div class="item item-divider row fontCenter">
+      <div class="col-25">
+        <p>開始時間</p>
+      </div>
+      <div class="col-50">
+        <p>發光模式</p>
+      </div>
+      <div class="col-25">
+        <p>亮度</p>
+      </div>
+    </div>
+
+    <ion-item ng-repeat="sec in data | filter : {mode:'!!'} "class="sectionItem" href="#/tab/dash/{{sec.ab_section}}">
+            <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
+Delete
+        </ion-option-button>
+      <div class="row fontCenter ">
+        <div class="col-25">
+          <p>{{sec.setHour | numberFixedLen: 2}}:{{sec.setMin | numberFixedLen: 2}}</p>
+        </div>
+        <div class="col-50">
+          <p>{{sec.mode | lightName}}模式</p>
+        </div>
+        <div class="col-25">
+          <p>{{sec.multiple}}%</p>
+        </div>
+      </div>
+    </ion-item>
+
+  </ion-list>
+    <button class="button button-full button-positive" ng-click="addSection()">
+  增加
+</button>
+<pre>
+    Command:
+    {{test}}
+    ============
+  {{debug}}
+</pre>
+
+
+
+
+
+
+  </ion-content>
+</ion-view>
