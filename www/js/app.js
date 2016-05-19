@@ -41,15 +41,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.modes', {
+    url: '/modes',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-modes': {
+        templateUrl: 'templates/modes.html',
+        controller: 'modesCtrl'
       }
     }
   })
+  .state('tab.modeEdit', {
+    url: '/modes/edit/:modeName',
+    views: {
+      'tab-modes': {
+        templateUrl: 'templates/modeEdit.html',
+        controller: 'modeEditCtrl'
+      }
+    }
+  })
+  .state('tab.chart', {
+    url: '/chart',
+    views: {
+      'tab-chart': {
+        templateUrl: 'templates/chart.html',
+        controller: 'chartCtrl'
+      }
+    }
+  })
+  /*
     .state('tab.section-set', {
     url: '/dash/:sectionId',
     views: {
@@ -58,7 +77,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
         controller: 'sectionSetCtrl'
       }
     }
-  })
+  })*/
 
   .state('tab.chats', {
       url: '/chats',
@@ -66,15 +85,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
         'tab-chats': {
           templateUrl: 'templates/tab-chats.html',
           controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
         }
       }
     })
@@ -90,7 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/modes');
 
 })
 
@@ -101,4 +111,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
    {ID: 3, Title: '太陽光20m'},
    {ID: 4, Title: '高衍色性太陽光'},
    {ID: 5, Title: '藍光'},
+  ] )
+.constant('lightItemKey', [
+   {ID: 'sun5m', Title: '太陽光5m'},
+   {ID: 'sun10m', Title: '太陽光10m'},
+   {ID: 'sun15m', Title: '太陽光15m'},
+   {ID: 'sun20m', Title: '太陽光20m'},
+   {ID: 'cri', Title: '高衍色性太陽光'},
+   {ID: 'blue', Title: '藍光'},
   ] );

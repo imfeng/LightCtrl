@@ -3,83 +3,46 @@ angular.module('starter.services', [])
 .factory('Sections', function(debugMocks) {
     
 
-    /*
-        'ab_section':0,
-        //'smode': 0,
-        //'section': 0,
-        'setHour': 23,
-        'setMin': 21,
-        'mode': 0,
-        'multiple': 33,
-        endHour:0,
-        endMin:0
-
-    */
-    var curMode = {
-        key:'sun5m'
-    };
     var modes = {
         'sun5m':{
-            modeId:0,
             name:'太陽光5m',
-            inUsing:true,
+            inUsing:false,
             sections:[{
                 'ab_section':0,
+                //'smode': 0,
+                //'section': 0,
                 'setHour': 23,
                 'setMin': 21,
                 'mode': 0,
                 'multiple': 33,
-                'endHour':0,
-                'endMin':0
             }]
         },
         'sun10m':{
-            modeId:1,
             name:'太陽光10m',
             inUsing:false,
             sections:[]
         },
         'sun15m':{
-            modeId:2,
             name:'太陽光15m',
             inUsing:false,
             sections:[]
         },
         'sun20m':{
-            modeId:3,
             name:'太陽光20m',
             inUsing:false,
             sections:[]
         },
         'cri':{
-            modeId:4,
             name:'高演色性太陽光',
             inUsing:false,
             sections:[]
         },
         'blue':{
-            modeId:5,
             name:'藍色冷光',
             inUsing:false,
             sections:[]
-        },
-    }
-
-    /*
-        key: function(n) {
-            
-        },
-        index: function(n){
-            return Object.keys(this)[n];
         }
-    */
-    if (window.localStorage['curMode']) {curMode = angular.fromJson(window.localStorage['curMode'])};
-    if (window.localStorage['sun5m']) {modes.sun5m = angular.fromJson(window.localStorage['sun5m'])};
-    if (window.localStorage['sun10m']) {modes.sun10m = angular.fromJson(window.localStorage['sun10m'])};
-    if (window.localStorage['sun15m']) {modes.sun15m = angular.fromJson(window.localStorage['sun15m'])};
-    if (window.localStorage['sun20m']) {modes.sun20m = angular.fromJson(window.localStorage['sun20m'])};
-    if (window.localStorage['cri']) {modes.cri = angular.fromJson(window.localStorage['cri'])};
-    if (window.localStorage['blue']) {modes.blue = angular.fromJson(window.localStorage['blue'])};
+    }
 
     var data = [];
     if (window.localStorage['sections']) {
@@ -97,23 +60,17 @@ angular.module('starter.services', [])
     }
 
     return {
-        getCurMode: function(){
-            return curMode;
-        },
         getModesData: function(){
             return modes;
         },
         this: function() {
             return this;
         },
-        saveCurMode:function(){
-            window.localStorage['curMode'] = angular.toJson(curMode, false);
-        },
-        saveMode: function(sections,modeName){
+        saveToStorage: function() {
+
             var newData = [];
             var tmpSec = {};
             var index = 0;
-            var data = sections;
 
             for (var i = 0; i < data.length; i++) {
                 if (typeof(data[i].mode)=='undefined') {
@@ -125,8 +82,6 @@ angular.module('starter.services', [])
                         'setMin': data[i].setMin,
                         'mode': data[i].mode,
                         'multiple': data[i].multiple,
-                        'endHour': data[i].endHour,
-                        'endMin': data[i].endMin,
                     }
                     newData.push(tmpSec);
                     index++;
@@ -134,18 +89,25 @@ angular.module('starter.services', [])
             };
             console.log('save:');
             console.log(newData);
-            modes[modeName].sections = newData;
-            console.log('modes[modeName].sections:' + modes[modeName].sections);
-            console.log(modes[modeName].sections);
-            window.localStorage[modeName] = angular.toJson(modes[modeName], false);
+            data = newData;
+            console.log('data = newDat:' + data);
+            console.log(data);
+            window.localStorage['sections'] = angular.toJson(data, false);
             return newData;
         },
-
         all: data,
         
-        remove: function(sections,rmId) {
-            delete sections[rmId];
-            sections[rmId] = {};
+        remove: function(rmId) {
+            console.log('remove:'+ data[rmId]);
+            //console.log('data[-1]:'+ data[rmId-1]);
+            //console.log(data[rmId-1]);
+            console.log( data);
+            //console.log( debugMocks.dump(data));
+            //console.log( data[rmId].multiple);
+            //console.log('dataLength:'+ data.length);
+           //data.splice(rmId, 1);
+            delete data[rmId];
+            data[rmId] = {};
             /*
                 .splice has BUG
                     @modify allToCmd
@@ -154,7 +116,10 @@ angular.module('starter.services', [])
             */
             //this.saveToStorage();
         },
-
+        set: function(Id, key, num) {
+            data[Id].indexOf(key) = num;
+            this.saveToStorage();
+        },
         getByKey: function(Id, key) {
             return data[Id].index(key);
         },
@@ -162,23 +127,36 @@ angular.module('starter.services', [])
             return data[Id];
 
         },
-        addParam: function(sections, mode) {
+        addParam: function(setHour, setMin, mode, multiple) {
             var obj = {
-                'ab_section':sections.length,
+                'ab_section':data.length,
                 //'smode': smode,
                 //'section': section,
-                'setHour': 0,
-                'setMin': 0,
+                'setHour': setHour,
+                'setMin': setMin,
                 'mode': mode,
-                'multiple': 0,
-                'endHour':0,
-                'endMin':0
+                'multiple': multiple,
             }
-            sections.push(obj);
-            
+            data.push(obj);
+            //this.saveToStorage();
             return true;
         },
-
+        modifyParam: function(id, setHour, setMin, mode, multiple) {
+            data[id].setHour = setHour;
+            data[id].setMin = setMin;
+            data[id].mode = mode;
+            data[id].multiple = multiple;
+            /*data[id] = {
+                //'smode': smode,
+                //'section': section,
+                'ab_section':id,
+                'setHour': setHour,
+                'setMin': setMin,
+                'mode': mode,
+                'multiple': multiple,
+            }*/
+            this.saveToStorage();
+        },
         allToCmd: function() {
             var temp = '';
             var sta = String.fromCharCode(65);
@@ -192,57 +170,28 @@ angular.module('starter.services', [])
             }
             var phone_min = date.getUTCMinutes();
 
-            var curSections = modes[curMode.key].sections;
-            var sectionsNum = 0;
 
-
-            for (var i = 0; i < curSections.length; i++) {
-                smode = Math.floor(sectionsNum / 24);
-                section = sectionsNum - smode * 24;
-                if (sectionsNum > 71) {
+            for (var i = 0; i < data.length; i++) {
+                smode = Math.floor(data[i].ab_section / 24);
+                section = data[i].ab_section - smode * 24;
+                if (data[i].ab_section > 71) {
                     break;
-                }else{
-                    //start Time
-                    temp = temp.concat(
-                        sta +
-                        String.fromCharCode(smode) +
-                        String.fromCharCode(section) +
-                        String.fromCharCode(curSections[i].setHour) +
-                        String.fromCharCode(curSections[i].setMin) +
-                        String.fromCharCode(curSections[i].mode) +
-                        String.fromCharCode(curSections[i].multiple) +
-                        String.fromCharCode(phone_hour) +
-                        String.fromCharCode(phone_min) +
-                        end
-                    );
-                    sectionsNum++;
-                    smode = Math.floor(sectionsNum / 24);
-                    section = sectionsNum - smode * 24;
-                    //End Time
-                    if (i+1 == curSections.length) {
-                        phone_hour = date.getUTCHours() + 8;
-                        if(phone_hour>23){
-                          phone_hour = phone_hour-24;
-                        }
-                        phone_min = date.getUTCMinutes();
-                    };
-                    temp = temp.concat(
-                        sta +
-                        String.fromCharCode(smode) +
-                        String.fromCharCode(section) +
-                        String.fromCharCode(curSections[i].endHour) +
-                        String.fromCharCode(curSections[i].endMin) +
-                        String.fromCharCode(0) +
-                        String.fromCharCode(0) +
-                        String.fromCharCode(phone_hour) +
-                        String.fromCharCode(phone_min) +
-                        end
-                    );
-                    sectionsNum++;
-                };
+                }else{};
+                temp = temp.concat(
+                    sta +
+                    String.fromCharCode(smode) +
+                    String.fromCharCode(section) +
+                    String.fromCharCode(data[i].setHour) +
+                    String.fromCharCode(data[i].setMin) +
+                    String.fromCharCode(data[i].mode) +
+                    String.fromCharCode(data[i].multiple) +
+                    String.fromCharCode(phone_hour) +
+                    String.fromCharCode(phone_min) +
+                    end
+                );
+
             }
-            console.log('allToCmd:');
-            console.log(temp);
+
             return temp;
 
         },
@@ -250,6 +199,7 @@ angular.module('starter.services', [])
             var temp = '';
             var sta = String.fromCharCode(65);
             var end = String.fromCharCode(90);
+            //var ab_section = 0;
             var smode = 0;
             var section = 0;
             var date = new Date();
@@ -259,63 +209,78 @@ angular.module('starter.services', [])
             }
             var phone_min = date.getUTCMinutes();
 
-            var curSections = modes[curMode.key].sections;
-            var sectionsNum = 0;
-
-
-            for (var i = 0; i < curSections.length; i++) {
-                smode = Math.floor(sectionsNum / 24);
-                section = sectionsNum - smode * 24;
-                if (sectionsNum > 71) {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].ab_section > 71) {
                     break;
-                }else{
-                    //start Time
-                    temp = temp.concat(
-                        sta +'_'+
-                        smode +'_'+
-                        section +'_'+
-                        curSections[i].setHour +'_'+
-                        curSections[i].setMin +'_'+
-                        curSections[i].mode +'_'+
-                        curSections[i].multiple +'_'+
-                        phone_hour +'_'+
-                        phone_min +'_'+
-                        end+'!!'
-                    );
-                    sectionsNum++;
-                    smode = Math.floor(sectionsNum / 24);
-                    section = sectionsNum - smode * 24;
-                    //End Time
-                    if (i+1 == curSections.length) {
-                        phone_hour = date.getUTCHours() + 8;
-                        if(phone_hour>23){
-                          phone_hour = phone_hour-24;
-                        }
-                        phone_min = date.getUTCMinutes();
-                    };
-                    temp = temp.concat(
-                        sta +'_'+
-                        smode+'_'+
-                        section+'_'+
-                        curSections[i].endHour+'_'+
-                        curSections[i].endMin+'_'+
-                        0+'_'+
-                        0+'_'+
-                        phone_hour+'_'+
-                        phone_min+'_'+
-                        end
-                    );
-                    sectionsNum++;
                 };
+                smode = Math.floor(data[i].ab_section / 24);
+                section = data[i].ab_section - smode * 24;
+                temp = temp.concat(
+                    sta + '_' +
+                    smode + '_' +
+                    section + '_' +
+                    data[i].setHour + '_' +
+                    data[i].setMin + '_' +
+                    data[i].mode + '_' +
+                    data[i].multiple + '_' +
+                    phone_hour + '_' +
+                    phone_min + '_' +
+                    end + '\n'
+                );
+                //ab_section++;
             }
-            console.log('allToCmd:');
-            console.log(temp);
             return temp;
 
         }
 
     };
 })
+    .factory('allToCmd', function(obj) {
+
+        return {
+            function() {
+                var temp = '';
+                var sta = String.fromCharCode(65);
+                var end = String.fromCharCode(90);
+                var ab_section = 0;
+                var smode = 0;
+                var section = 0;
+                var date = new Date();
+                var phone_hour = date.getUTCHours() + 8;
+                if(phone_hour>23){
+                  phone_hour = phone_hour-24;
+                }
+                var phone_min = date.getUTCMinutes();
+
+
+                for (var i = 0; i < data.length; i++) {
+                    if (ab_section > 71) {
+                        break;
+                    };
+                    smode = Math.floor(ab_section / 24);
+                    section = ab_section - smode * 24;
+                    temp = temp.concat(
+                        sta +
+                        String.fromCharCode(smode) +
+                        String.fromCharCode(section) +
+                        String.fromCharCode(data[i].setHour) +
+                        String.fromCharCode(data[i].setMin) +
+                        String.fromCharCode(data[i].mode) +
+                        String.fromCharCode(data[i].multiple) +
+                        String.fromCharCode(phone_hour) +
+                        String.fromCharCode(phone_min) +
+                        end
+                    );
+                    ab_section++;
+                }
+
+                return temp;
+            }
+
+        }
+
+    })
+
 .factory('myBluetooth', function($cordovaBluetoothSerial, $timeout, debugMocks) {
 
     btStatus = {
@@ -335,6 +300,7 @@ angular.module('starter.services', [])
 
 
     setStatus = function(cnt) {
+
         btStatus.stat = cnt;
         btStatus.isNotice = true;
         console.log('isNotice:' + btStatus.isNotice);
@@ -477,7 +443,6 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
             );
         },
         sendCmd: function(cmd) {
-        if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
             btStatus.isLoading = true;
             setStatus('Sending...');
             $cordovaBluetoothSerial.write(cmd).then(
@@ -490,11 +455,6 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
                     setStatus('Send CMD ERROR!\nplz check bluetooth status');
                 }
             );
-
-        }else{
-            alert('未與裝置連線！請到"Connect"設定！');
-        };
-            
         },
     };
     /*

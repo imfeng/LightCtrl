@@ -1,0 +1,7 @@
+<style>.changeMode{height:35px;margin: 0 auto}</style>
+<div class="list">
+	<label class="item item-input item-select changeMode">
+		<select ng-model="curMode.key" ng-options="lightItem.ID as lightItem.Title for lightItem in lightList" ng-change="saveMode()">
+	    </select>
+    </label>
+</div>

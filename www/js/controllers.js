@@ -1,5 +1,205 @@
 angular.module('starter.controllers', [])
+.controller('chartCtrl', function($stateParams,$ionicLoading,$scope, Sections, debugMocks, $rootScope) {
 
+})
+.controller('modesCtrl', function(myBluetooth, $ionicPopup, lightItemKey, $state, $ionicLoading,$scope, Sections, debugMocks, $rootScope) {
+  
+  $scope.modes = Sections.getModesData();
+  $scope.curMode = Sections.getCurMode();
+  $scope.lightList = lightItemKey;
+  $scope.btStatus = myBluetooth.btStatus;
+
+  $scope.goState = function(modeName){
+    //alert('GG');
+    $state.go('tab.modeEdit',{modeName:modeName});
+  }
+  $scope.find = {
+    key: function(n){
+      return $scope.modes[Object.keys($scope.modes)[n]];
+    },
+    index: function(n){
+      return Object.keys($scope.modes)[n];
+    }
+
+  }
+  console.log($scope.find.key(1));
+
+  $scope.changeMode = function(){
+    var modePopup = $ionicPopup.show({
+      templateUrl: 'templates/changeMode.html',
+      title: '更改目前的模式',
+      scope: $scope,
+      buttons: [
+        {
+          text: '<b>確定</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            //alert(debugMocks.dump($ionicHistory.viewHistory()));
+            
+          }
+        }
+      ]
+    });
+
+    modePopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+
+    $timeout(function() {
+         modePopup.close();
+    }, 5000);
+  }
+  $scope.saveMode = function(){
+
+    Sections.saveCurMode();
+  }
+  $scope.sendToLight = function(){
+    myBluetooth.sendCmd(Sections.allToCmd());
+    console.log(Sections.allToCmd());
+    
+  }
+
+
+})
+.controller('modeEditCtrl', function($timeout, $ionicPopup, ionicTimePicker, lightItem, $ionicModal, $stateParams,$ionicLoading,$scope, Sections, debugMocks, $rootScope) {
+  
+
+
+  $scope.$on('$ionicView.enter', function(e) {
+    $scope.modeName = $stateParams.modeName;
+    $scope.mode =  angular.copy(Sections.getModesData()[$scope.modeName]);
+  });
+  
+
+  //$scope.mode = Sections.getModesData()[modeName] || false;
+  console.log('$scope.mode: '+ $scope.mode );
+
+  console.log('mode name: ' + $scope.modeName)
+
+  $scope.delSection = function(rmId){
+    Sections.remove($scope.mode.sections,rmId);
+
+    //$scope.data = Sections.saveToStorage();
+    console.log('delSection:');
+    console.log($scope.mode);
+  };
+  $scope.addSection = function(){
+    Sections.addParam($scope.mode.sections,$scope.mode.modeId);
+    console.log('data after add:');
+    console.log($scope.mode);
+  };
+  $scope.saveMode = function(){
+    Sections.saveMode($scope.mode.sections,$scope.modeName);
+    alert('Saved!')
+  }
+
+// Modal
+$scope.lightList = lightItem;
+  $scope.thisSection ={
+    id:0,
+    data:{}
+  };
+
+  $ionicModal.fromTemplateUrl('templates/sectionEdit.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.sectionModal = modal;
+  });
+
+  $scope.saveData = function(){
+    var id = $scope.thisSection.id;
+    $scope.mode.sections[id].ab_section= $scope.thisSection.data.ab_section;
+    $scope.mode.sections[id].setHour= $scope.thisSection.data.setHour;
+    $scope.mode.sections[id].setMin= $scope.thisSection.data.setMin;
+    $scope.mode.sections[id].multiple= $scope.thisSection.data.multiple;
+    $scope.mode.sections[id].endHour= $scope.thisSection.data.endHour;
+    $scope.mode.sections[id].endMin= $scope.thisSection.data.endMin;
+    //
+    var savePopup = $ionicPopup.show({
+      template: '<p style="text-align: center;font-size:16pt;"><b>已更改</b></p>',
+      title: '成功',
+      scope: $scope,
+      buttons: [
+        { text: '繼續編輯' },
+        {
+          text: '<b>上一頁</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            //alert(debugMocks.dump($ionicHistory.viewHistory()));
+            $scope.closeModal();
+          }
+        }
+      ]
+    });
+
+    savePopup.then(function(res) {
+      console.log('Tapped!', res);
+    });
+
+    $timeout(function() {
+         savePopup.close();
+    }, 5000);
+
+    
+  }
+  $scope.openModal = function(id){
+    $scope.thisSection.id = id;
+    $scope.thisSection.data = angular.copy( $scope.mode.sections[id] );
+    $scope.sectionModal.show();
+  }
+  $scope.closeModal = function() {
+    $scope.sectionModal.hide();
+  };
+
+  $scope.openStartTimer = function(){
+    var min =$scope.thisSection.data['setMin'];
+    var hour =$scope.thisSection.data['setHour'];
+    if(min>29){
+      hour = hour-1;
+    }
+    var ipStart = {
+      callback: function (val) {      //Mandatory
+        if (typeof (val) === 'undefined') {
+
+          console.log('Time not selected');
+        } else {
+          var selectedTime = new Date(val * 1000);
+          $scope.thisSection.data['setHour'] = selectedTime.getUTCHours();
+          $scope.thisSection.data['setMin'] = selectedTime.getUTCMinutes();
+          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+        }
+      },
+      inputTime:hour*60*60+min*60,   //Optional
+      format: 24,         //Optional
+      step: 1,           //Optional
+    };
+    ionicTimePicker.openTimePicker(ipStart);
+  };
+  $scope.openEndTimer = function(){
+    var ipEnd = {
+      callback: function (val) {      //Mandatory
+        if (typeof (val) === 'undefined') {
+
+          console.log('Time not selected');
+        } else {
+          var selectedTime = new Date(val * 1000);
+          $scope.thisSection.data['endHour'] = selectedTime.getUTCHours();
+          $scope.thisSection.data['endMin'] = selectedTime.getUTCMinutes();
+          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+        }
+      },
+      inputTime: $scope.thisSection.data['endHour']*60*60+$scope.thisSection.data['endMin']*60,   //Optional
+      //(((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60))
+      format: 24,         //Optional
+      step: 1,           //Optional
+    };
+    ionicTimePicker.openTimePicker(ipEnd);
+  };
+
+
+
+})
 .controller('DashCtrl', function($ionicLoading,$scope, Sections, debugMocks, $rootScope) {
 /*
   loading = function() {

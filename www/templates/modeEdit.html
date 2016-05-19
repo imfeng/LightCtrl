@@ -1,0 +1,58 @@
+<style>
+  .item-content{
+    padding: 5px!important;
+  }
+</style>
+
+<ion-view view-title="{{mode.name}}">
+  <ion-content class="padding">
+
+  <ion-list >
+
+    <div class="item item-divider row fontCenter">
+      <div class="col-75">
+        <p>開始時間 ~ 結束時間</p>
+      </div>
+
+      <div class="col-25">
+        <p>亮度</p>
+      </div>
+    </div>
+
+    <!-- href="#/tab/modes/edit/{{modeName}}/{{sec.ab_section}}" -->
+    <ion-item ng-repeat="sec in mode.sections | filter : {mode:'!!'} "class="sectionItem" ng-click="openModal($index)">
+
+            <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
+Delete
+        </ion-option-button>
+      <div class="row fontCenter ">
+        <div class="col-75">
+          <p>{{sec.setHour | numberFixedLen: 2}}:{{sec.setMin | numberFixedLen: 2}} ~ {{sec.endHour | numberFixedLen: 2}}:{{sec.endMin | numberFixedLen: 2}}</p>
+        </div>
+        <div class="col-25">
+          <p>{{sec.multiple}}%</p>
+        </div>
+      </div>
+    </ion-item>
+
+  </ion-list>
+    <button class="button button-full button-positive" ng-click="addSection()">
+  增加
+</button>
+    <button class="button button-full button-positive" ng-click="saveMode()">
+  儲存目前設定
+</button>
+<pre>
+    Command:
+    {{test}}
+    ============
+  {{debug}}
+</pre>
+
+
+
+
+
+
+  </ion-content>
+</ion-view>

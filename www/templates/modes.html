@@ -1,0 +1,88 @@
+<style>
+
+	.modes .inUsed{
+		visibility: hidden;
+		font-size: 0.5em;
+		line-height: 0;
+		color: red;
+		font-weight: bold;
+
+		position: absolute;
+		right: 0;
+		left: 0;
+		top: 7px;
+	}
+	.modes .isActive{
+		border: 2px solid rgba(0,0,0,.1);
+		border-radius: 10px;
+	}
+	.modes .isActive .inUsed{
+		visibility: visible!important;
+	}
+	.modes .long-text span{
+		font-size: .8em;
+	}
+	.modes button{
+		height: 120px;
+		
+		margin: 0!important;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 0;
+	}
+	.modes button .icon{
+		line-height: 0;
+		display: block;
+		margin: 0 auto; 
+
+	}
+	.modes button .icon:before{
+
+		font-size: 2.5em;
+		margin-bottom: 0.6em;
+		line-height: 0em;
+	}
+	.modes .text{
+		position: absolute;
+		right: 0;
+		left: 0;
+		
+	}
+</style>
+<ion-view view-title="SunCor">
+
+  <ion-content class="padding">
+<div class="list">
+	<div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
+			<ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
+			<h2>{{btStatus.stat}}</h2>
+		</div>
+</div>
+<div class="modes">
+	<div ng-repeat=" (key,mode) in modes" ng-if="$index % 2 == 0" class="row">
+		<div class="col col-50"><button ng-click="goState('{{key}}')" class="button button-block button-stable" ng-class="{isActive : key==curMode.key }"><span class="inUsed">目前使用中</span><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{mode.name}}</span></button></div>
+		<div class="col col-50"><button ng-click="goState(find.index($index+1))" class="button button-block button-stable" ng-class="{isActive : find.index($index+1) == curMode.key}"><span class="inUsed">目前使用中</span><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{find.key($index+1).name}}</span></button></div>
+	</div>
+<!--
+	<div class="row">
+		<div class="col col-50"><button ng-click="goState('sun5m')" class="button button-block button-stable" ng-class="{isActive : modes['sun5m'].inUsing}"><span class="inUsed">目前使用中</span><i class="icon ion-ios-lightbulb-outline"></i><span>太陽光5m</span></button></div>
+		<div class="col col-50"><button ng-click="goState('sun10m')" href="#/tab/modes/666" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span>太陽光10m</span></button></div>
+	</div>
+	<div class="row">
+		<div class="col col-50"><button ng-click="goState('sun15m')" href="#/tab/modes/666" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span>太陽光15m</span></button></div>
+		<div class="col col-50"><button ng-click="goState('sun20m')" href="#/tab/modes/666" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span>太陽光20m</span></button></div>
+	</div>
+	<div class="row">
+		<div class="col col-50"><button ng-click="goState('cri')" href="#/tab/modes/666" class="button button-block button-stable long-text"><i class="icon ion-ios-lightbulb-outline"></i><span>高演色性太陽光</span></button></div>
+		<div class="col col-50"><button ng-click="goState('blue')" href="#/tab/modes/666" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span>藍色冷光</span></button></div>
+	</div>
+-->
+</div>
+  <button class="button button-block button-positive" ng-click="sendToLight()">
+  同步到裝置
+</button>
+  <button class="button button-block button-dark" ng-click="changeMode()">
+  更改Mode
+</button>
+  </ion-content>
+</ion-view>
