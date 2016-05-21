@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic-timepicker','ngCordova','DEBUG'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic-timepicker','ngCordova','chart.js','DEBUG'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -79,22 +79,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     }
   })*/
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.manual', {
+      url: '/manual',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-manual': {
+          templateUrl: 'templates/tab-manual.html',
+          controller: 'manualCtrl'
         }
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.connect', {
+    url: '/connect',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-connect': {
+        templateUrl: 'templates/tab-connect.html',
+        controller: 'connectCtrl'
       }
     }
   });
@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
    {ID: 1, Title: '太陽光10m'},
    {ID: 2, Title: '太陽光15m'},
    {ID: 3, Title: '太陽光20m'},
-   {ID: 4, Title: '高衍色性太陽光'},
+   {ID: 4, Title: '高演色性太陽光'},
    {ID: 5, Title: '藍光'},
   ] )
 .constant('lightItemKey', [
@@ -117,6 +117,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
    {ID: 'sun10m', Title: '太陽光10m'},
    {ID: 'sun15m', Title: '太陽光15m'},
    {ID: 'sun20m', Title: '太陽光20m'},
-   {ID: 'cri', Title: '高衍色性太陽光'},
+   {ID: 'cri', Title: '高演色性太陽光'},
    {ID: 'blue', Title: '藍光'},
   ] );

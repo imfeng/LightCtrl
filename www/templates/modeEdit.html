@@ -5,7 +5,8 @@
 </style>
 
 <ion-view view-title="{{mode.name}}">
-  <ion-content class="padding">
+
+  <ion-content class="has-header padding">
 
   <ion-list >
 
@@ -18,12 +19,19 @@
         <p>亮度</p>
       </div>
     </div>
-
+    <!--
+    <div class="item sectionItem">
+      <div class="row fontCenter ">
+        <div class="col-75">06:00 ~ 18:00</div>
+        <div class="col-25">仿自然光</div>
+      </div>
+    </div>
+  -->
     <!-- href="#/tab/modes/edit/{{modeName}}/{{sec.ab_section}}" -->
     <ion-item ng-repeat="sec in mode.sections | filter : {mode:'!!'} "class="sectionItem" ng-click="openModal($index)">
 
-            <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
-Delete
+        <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
+          Delete
         </ion-option-button>
       <div class="row fontCenter ">
         <div class="col-75">
@@ -36,18 +44,15 @@ Delete
     </ion-item>
 
   </ion-list>
+      <button class="button button-full button-dark" ng-click="changeDef()">
+  使用預設值
+</button>
     <button class="button button-full button-positive" ng-click="addSection()">
   增加
 </button>
     <button class="button button-full button-positive" ng-click="saveMode()">
   儲存目前設定
 </button>
-<pre>
-    Command:
-    {{test}}
-    ============
-  {{debug}}
-</pre>
 
 
 
