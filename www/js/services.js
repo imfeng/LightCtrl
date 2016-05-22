@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.service('ModalService', function(myBluetooth, $ionicModal, $rootScope, $ionicPlatform) {
+.service('connectBtModal', function(myBluetooth, $ionicModal, $rootScope, $ionicPlatform) {
   
   
   var init = function(tpl, $scope) {
@@ -85,7 +85,8 @@ angular.module('starter.services', [])
   }
   
   return {
-    init: init
+    init: init,
+    btStatus: myBluetooth.btStatus
   }
   
 })

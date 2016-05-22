@@ -1,1 +1,6 @@
-/* Empty. Add your own CSS if you like */
+	ion-nav-bar .ion-bluetooth:before{
+		color: #aaa;
+	}
+	ion-nav-bar .ion-bluetooth.isBtConnected:before{
+		color: chartreuse!important;
+	}

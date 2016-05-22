@@ -1,13 +1,19 @@
 angular.module('starter.controllers', [])
-.controller('patternEditCtrl', function(ModalService, $ionicPopup, $ionicModal, $stateParams, ionicTimePicker, lightItem, myBluetooth, $state, $ionicLoading,$scope, Sections) {
+.controller('patternEditCtrl', function(connectBtModal, $ionicPopup, $ionicModal, $stateParams, ionicTimePicker, lightItem, myBluetooth, $state, $ionicLoading,$scope, Sections) {
 
-  $scope.openConnectModal = function(){
-    ModalService
-      .init()
-      .then(function(modal) {
-        modal.show();
-    });
+ /* Bluetooth Status Icon @header-bar*/
+  // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+  $scope.connectBtModal ={
+    btStatus:connectBtModal.btStatus,
+    openModal: function(){
+      connectBtModal
+        .init()
+        .then(function(modal) {
+          modal.show();
+      });
+    }
   }
+  /**/
 
 
   $scope.$on('$ionicView.enter', function(e) {
@@ -188,8 +194,20 @@ $scope.lightList = lightItem;
  
 
 })
-.controller('patternsCtrl', function($stateParams, myBluetooth, $state, $ionicLoading,$scope, Sections) {
-
+.controller('patternsCtrl', function(connectBtModal, $stateParams, myBluetooth, $state, $ionicLoading,$scope, Sections) {
+/* Bluetooth Status Icon @header-bar*/
+  // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+  $scope.connectBtModal ={
+    btStatus:connectBtModal.btStatus,
+    openModal: function(){
+      connectBtModal
+        .init()
+        .then(function(modal) {
+          modal.show();
+      });
+    }
+  }
+  /**/
   $scope.modeName = $stateParams.modeName;
   $scope.mode = Sections.getModesDataById($scope.modeName);
   $scope.goState = function(index){
@@ -264,8 +282,23 @@ $scope.timeDatas= [$scope.timeData];
 
 
 })
-.controller('modesCtrl', function(myBluetooth, $ionicPopup, lightItemKey, $state, $ionicLoading,$scope, Sections, debugMocks, $rootScope) {
+.controller('modesCtrl', function(connectBtModal, myBluetooth, $ionicPopup, lightItemKey, $state, $ionicLoading,$scope, Sections, debugMocks, $rootScope) {
   
+  /* Bluetooth Status Icon @header-bar*/
+  // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+  $scope.connectBtModal ={
+    btStatus:connectBtModal.btStatus,
+    openModal: function(){
+      connectBtModal
+        .init()
+        .then(function(modal) {
+          modal.show();
+      });
+    }
+  }
+  /**/
+
+
   $scope.modes = Sections.getModesData();
   $scope.curMode = Sections.getCurMode();
   $scope.lightList = lightItemKey;
@@ -585,4 +618,60 @@ $scope.lightList = lightItem;
   }else{}
 
 
-});
+})
+
+.controller('manualCtrl', function(connectBtModal, myBluetooth, lightItem, $scope, ionicTimePicker, debugMocks ) {
+
+ /* Bluetooth Status Icon @header-bar*/
+  // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+  $scope.connectBtModal ={
+    btStatus:connectBtModal.btStatus,
+    openModal: function(){
+      connectBtModal
+        .init()
+        .then(function(modal) {
+          modal.show();
+      });
+    }
+  }
+  /**/
+
+
+  $scope.btStatus = myBluetooth.btStatus
+
+  $scope.lightList = lightItem;
+
+  $scope.thisSection = {
+      'mode': 0,
+      'multiple': 0,
+    };
+
+  var disableManualCmd = String.fromCharCode(240)+String.fromCharCode(0)+String.fromCharCode(0)+String.fromCharCode(255);
+  $scope.isConnectedFunc = function(){}
+  $scope.sendCmd = function(){if (!btStatus.currentDeviceStatus) {alert('cordova ERROR')};}
+  $scope.sendDisableManualCmd = function(){if (!btStatus.currentDeviceStatus) {alert('cordova ERROR')};}
+
+
+  /* Cordova */
+  
+  if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
+    $scope.sendDisableManualCmd = function(){
+      if(btStatus.currentDeviceStatus){
+        myBluetooth.sendCmd(disableManualCmd);
+      }else{
+        alert('No Device Connected!');
+      }
+    }
+
+    $scope.sendCmd = function(){
+      if(btStatus.currentDeviceStatus){
+        var cmd = String.fromCharCode(250)+String.fromCharCode($scope.thisSection.mode)+String.fromCharCode($scope.thisSection.multiple)+String.fromCharCode(255);
+        myBluetooth.sendCmd(cmd);
+      }else{
+        alert('No Device Connected!');
+      }
+    }
+  }else{}
+
+})
+;
