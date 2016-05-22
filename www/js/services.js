@@ -34,7 +34,7 @@ angular.module('starter.services', [])
   $scope.sendCmd = function(){};
   //$scope.test = function(test){alert($scope.devices[test].address)};
 
-/*
+
   if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
     $ionicPlatform.ready(function() {
 
@@ -61,7 +61,7 @@ angular.module('starter.services', [])
       };
     }); 
   }else{}
-*/
+
 /**/
     promise = $ionicModal.fromTemplateUrl('templates/modal-connect.html', {
       scope: $scope,
