@@ -1,5 +1,159 @@
 angular.module('starter.services', [])
 
+.service('ModalService', function(myBluetooth, $ionicModal, $rootScope, $ionicPlatform) {
+  
+  
+  var init = function(tpl, $scope) {
+
+    var promise;
+    $scope = $scope || $rootScope.$new();
+    
+/**/
+
+
+  $scope.showDelBtn = function(){
+    $scope.ctrl.showDelete = true;
+  }
+
+  $scope.$on('$ionicView.enter', function(e) {
+      $scope.reset();
+  });
+
+
+  $scope.btStatus = myBluetooth.btStatus;
+
+
+  //$scope.devices = myBluetooth.myDevices;
+
+  console.log($scope.btStatus);
+
+  /* Init */
+  $scope.refreshList = function(){myBluetooth.setStatus('ERROR!');
+    console.log('isNotice:' + $scope.btStatus.isNotice);};
+  $scope.connectDevice = function(){myBluetooth.setStatus('ERROR!')};
+  $scope.sendCmd = function(){};
+  //$scope.test = function(test){alert($scope.devices[test].address)};
+
+/*
+  if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
+    $ionicPlatform.ready(function() {
+
+      myBluetooth.isEnabled();
+      $scope.enableBluetooth = function(){
+          myBluetooth.enableBluetooth();
+          myBluetooth.refreshList();
+      };
+
+      $scope.refreshList = function(){
+        myBluetooth.refreshList();
+
+      };
+      $scope.connectDevice = function(index){
+        myBluetooth.connectDevice(index);
+      };
+      $scope.disconnectDevice = function(){
+        myBluetooth.disconnectDevice();
+      };
+      $scope.sendCmd = function(){
+
+        myBluetooth.sendCmd($scope.data);
+
+      };
+    }); 
+  }else{}
+*/
+/**/
+    promise = $ionicModal.fromTemplateUrl('templates/modal-connect.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      return modal;
+    });
+
+    $scope.openModal = function() {
+       $scope.modal.show();
+     };
+     $scope.closeModal = function() {
+       $scope.modal.hide();
+     };
+     $scope.$on('$destroy', function() {
+       $scope.modal.remove();
+     });
+    
+    return promise;
+  }
+  
+  return {
+    init: init
+  }
+  
+})
+
+.factory('connectBt', function($ionicModal, myBluetooth, $cordovaBluetoothSerial, $ionicPlatform, $timeout, Sections) {
+
+
+  var scope = {
+
+    reset: function(){
+    },
+    showDelBtn: function(){
+    },
+    btStatus: myBluetooth.btStatus,
+    refreshList: function(){
+        myBluetooth.setStatus('ERROR!');
+    },
+    connectDevice: function(){myBluetooth.setStatus('ERROR!')},
+    sendCmd: function(){alert('Send ERROR');},
+  }
+  
+  $ionicModal.fromTemplateUrl('templates/modal-connect.html', {
+    scope: scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    var sectionModal = modal;
+  });
+
+return{
+    openModal: function(){
+        sectionModal.show();
+    },
+    closeModal: function() {
+        sectionModal.hide();
+    }
+}
+/*
+
+  if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
+    $ionicPlatform.ready(function() {
+
+      myBluetooth.isEnabled();
+      var enableBluetooth = function(){
+          myBluetooth.enableBluetooth();
+          myBluetooth.refreshList();
+      };
+
+      var refreshList = function(){
+        myBluetooth.refreshList();
+
+      };
+      var connectDevice = function(index){
+        myBluetooth.connectDevice(index);
+      };
+      var disconnectDevice = function(){
+        myBluetooth.disconnectDevice();
+      };
+      var sendCmd = function(){
+
+        myBluetooth.sendCmd($scope.data);
+
+      };
+    }); 
+  }else{}
+*/
+
+})
+
 .factory('Sections', function(debugMocks) {
     
 
@@ -23,54 +177,157 @@ angular.module('starter.services', [])
             modeId:0,
             name:'太陽光5m',
             inUsing:true,
-            sections:[],
-            patterns:{
-                def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}],
-                def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":0,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":0,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":0,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":0,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":0,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":0,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":0,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":0,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":0,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":0,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":0,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":0,"multiple":0,"endHour":0,"endMin":0}],    
-
-            },
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":0,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":0,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":0,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":0,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":0,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":0,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":0,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":0,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":0,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":0,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":0,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":0,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":0,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":0,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":0,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":0,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":0,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":0,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":0,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":0,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":0,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":0,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":0,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":0,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":0,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
         'sun10m':{
             modeId:1,
             name:'太陽光10m',
             inUsing:false,
-            sections:[],
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":1,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":1,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":1,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":1,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":1,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":1,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":1,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":1,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":1,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":1,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":1,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":1,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":1,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":1,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":1,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":1,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":1,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":1,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":1,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":1,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":1,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":1,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":1,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":1,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":1,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
         'sun15m':{
             modeId:2,
             name:'太陽光15m',
             inUsing:false,
-            sections:[],
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":2,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":2,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":2,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":2,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":2,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":2,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":2,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":2,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":2,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":2,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":2,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":2,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":2,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":2,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":2,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":0,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":0,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":0,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":0,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":0,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":0,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":0,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":0,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":0,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":2,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
         'sun20m':{
             modeId:3,
             name:'太陽光20m',
             inUsing:false,
-            sections:[],
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":3,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":3,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":3,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":3,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":3,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":3,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":3,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":3,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":3,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":3,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":3,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":3,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":3,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":3,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":3,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":3,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":3,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":3,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":3,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":3,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":3,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":3,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":3,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":3,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":3,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
         'cri':{
             modeId:4,
             name:'高演色性太陽光',
             inUsing:false,
-            sections:[],
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":4,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":4,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":4,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":4,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":4,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":4,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":4,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":4,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":4,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":4,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":4,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":4,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":4,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":4,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":4,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":4,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":4,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":4,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":4,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":4,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":4,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":4,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":4,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":4,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":4,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
         'blue':{
             modeId:5,
             name:'藍色冷光',
             inUsing:false,
-            sections:[],
-            def_long:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}],
-            def_nature:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":5,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":5,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":5,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":5,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":5,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":5,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":5,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":5,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":5,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":5,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":5,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":5,"multiple":0,"endHour":0,"endMin":0}]
+            patternChoice:'',
+            patterns:
+            [{
+                name:'長亮',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:'仿太陽光',
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":0,"endHour":7,"endMin":0},{"ab_section":1,"setHour":7,"setMin":0,"mode":5,"multiple":17,"endHour":8,"endMin":0},{"ab_section":2,"setHour":8,"setMin":0,"mode":5,"multiple":34,"endHour":9,"endMin":0},{"ab_section":3,"setHour":9,"setMin":0,"mode":5,"multiple":51,"endHour":10,"endMin":0},{"ab_section":4,"setHour":10,"setMin":0,"mode":5,"multiple":68,"endHour":11,"endMin":0},{"ab_section":5,"setHour":11,"setMin":0,"mode":5,"multiple":85,"endHour":12,"endMin":0},{"ab_section":6,"setHour":12,"setMin":0,"mode":5,"multiple":100,"endHour":13,"endMin":0},{"ab_section":7,"setHour":13,"setMin":0,"mode":5,"multiple":85,"endHour":14,"endMin":0},{"ab_section":8,"setHour":14,"setMin":0,"mode":5,"multiple":68,"endHour":15,"endMin":0},{"ab_section":9,"setHour":15,"setMin":0,"mode":5,"multiple":51,"endHour":16,"endMin":0},{"ab_section":10,"setHour":16,"setMin":0,"mode":5,"multiple":34,"endHour":17,"endMin":0},{"ab_section":11,"setHour":17,"setMin":0,"mode":5,"multiple":17,"endHour":18,"endMin":0},{"ab_section":12,"setHour":18,"setMin":0,"mode":5,"multiple":0,"endHour":0,"endMin":0}]
+            },{
+                name:"pattern1",
+                sections:[{"ab_section":0,"setHour":8,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern2",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern3",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}]
+            },{
+                name:"pattern4",
+                sections:[{"ab_section":0,"setHour":6,"setMin":0,"mode":5,"multiple":100,"endHour":18,"endMin":0}]
+            }]
         },
     }
 
@@ -91,6 +348,12 @@ angular.module('starter.services', [])
     if (window.localStorage['blue']) {modes.blue = angular.fromJson(window.localStorage['blue'])};
 
     return {
+        getModeId: function(modeName){
+            return modes[modeName].modeId;
+        },
+        getPattern: function(modeName,index){
+            return modes[modeName].patterns[index];
+        },
         getCurMode: function(){
             return curMode;
         },
@@ -106,7 +369,7 @@ angular.module('starter.services', [])
         saveCurMode:function(){
             window.localStorage['curMode'] = angular.toJson(curMode, false);
         },
-        saveMode: function(sections,modeName){
+        saveMode: function(sections,modeName,patternKey){
             var newData = [];
             var tmpSec = {};
             var index = 0;
@@ -131,11 +394,10 @@ angular.module('starter.services', [])
             };
             console.log('save:');
             console.log(newData);
-            modes[modeName].sections = newData;
-            console.log('modes[modeName].sections:' + modes[modeName].sections);
-            console.log(modes[modeName].sections);
+            modes[modeName].patterns[patternKey].sections = newData;
+            console.log('modes[modeName]:');
+            console.log(modes[modeName]);
             window.localStorage[modeName] = angular.toJson(modes[modeName], false);
-            return newData;
         },
 
         

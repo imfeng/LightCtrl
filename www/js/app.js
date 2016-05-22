@@ -32,7 +32,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
@@ -40,13 +40,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
 
 
   // Each tab has its own nav history stack:
-
   .state('tab.modes', {
     url: '/modes',
     views: {
       'tab-modes': {
         templateUrl: 'templates/modes.html',
         controller: 'modesCtrl'
+      }
+    }
+  })
+  .state('tab.patterns', {
+    url: '/modes/:modeName/patterns',
+    views: {
+      'tab-modes': {
+        templateUrl: 'templates/patterns.html',
+        controller: 'patternsCtrl'
+      }
+    }
+  })
+  .state('tab.patternEdit', {
+    url: '/modes/:modeName/patterns/:patternKey',
+    views: {
+      'tab-modes': {
+        templateUrl: 'templates/patternEdit.html',
+        controller: 'patternEditCtrl'
       }
     }
   })
@@ -68,16 +85,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     }
   })
-  /*
-    .state('tab.section-set', {
-    url: '/dash/:sectionId',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/section-set.html',
-        controller: 'sectionSetCtrl'
-      }
-    }
-  })*/
 
   .state('tab.manual', {
       url: '/manual',

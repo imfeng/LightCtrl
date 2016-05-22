@@ -1,0 +1,78 @@
+<style>
+
+	.modes .inUsed{
+		visibility: hidden;
+		font-size: 0.5em;
+		line-height: 0;
+		color: red;
+		font-weight: bold;
+
+		position: absolute;
+		right: 0;
+		left: 0;
+		top: 7px;
+	}
+	.modes .isActive{
+		border: 2px solid rgba(0,0,0,.1);
+		border-radius: 10px;
+	}
+	.modes .isActive .inUsed{
+		visibility: visible!important;
+	}
+	.modes .long-text span{
+		font-size: .8em;
+	}
+	.modes button{
+		height: 120px;
+		
+		margin: 0!important;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 0;
+	}
+	.modes button .icon{
+		line-height: 0;
+		display: block;
+		margin: 0 auto; 
+
+	}
+	.modes button .icon:before{
+
+		font-size: 2.5em;
+		margin-bottom: 0.6em;
+		line-height: 0em;
+	}
+	.modes .text{
+		position: absolute;
+		right: 0;
+		left: 0;
+		
+	}
+</style>
+<ion-view view-title="{{mode.name}}">
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-ios-information-outline" ng-click="showInfo()">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="padding">
+<div class="list">
+	<div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
+			<ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
+			<h2>{{btStatus.stat}}</h2>
+		</div>
+</div>
+<div class="modes">
+	<!-- <span class="inUsed">目前使用中</span> -->
+	<div ng-repeat=" (key,pattern) in mode.patterns" ng-if="$index % 2 == 0" class="row">
+		<div class="col col-50"><button ng-click="goState($index)" class="button button-block button-stable" ng-class="{isActive : pattern.name==mode.patternChoice }"><i class="icon ion-ios-timer-outline"></i><span class="text">{{pattern.name}}</span></button></div>
+		<div ng-show="mode.patterns[$index+1].name" class="col col-50"><button ng-click="goState($index+1)" class="button button-block button-stable" ng-class="{isActive : pattern.name==mode.patterns[$index+1]}"><i class="icon ion-ios-timer-outline"></i><span class="text">{{mode.patterns[$index+1].name}}</span></button></div>
+	</div>
+</div>
+
+
+  </ion-content>
+</ion-view>

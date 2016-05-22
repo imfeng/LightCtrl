@@ -50,7 +50,14 @@
 	}
 </style>
 <ion-view view-title="SunCor">
-
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="right">
+      <button class="button button-icon button-clear ion-ios-information-outline" ng-click="showInfo()">
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
   <ion-content class="padding">
 <div class="list">
 	<div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
@@ -59,9 +66,10 @@
 		</div>
 </div>
 <div class="modes">
+	<!-- ng-class="{isActive : key==curMode.key }"  <span class="inUsed">目前使用中</span> -->
 	<div ng-repeat=" (key,mode) in modes" ng-if="$index % 2 == 0" class="row">
-		<div class="col col-50"><button ng-click="goState('{{key}}')" class="button button-block button-stable" ng-class="{isActive : key==curMode.key }"><span class="inUsed">目前使用中</span><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{mode.name}}</span></button></div>
-		<div class="col col-50"><button ng-click="goState(find.index($index+1))" class="button button-block button-stable" ng-class="{isActive : find.index($index+1) == curMode.key}"><span class="inUsed">目前使用中</span><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{find.key($index+1).name}}</span></button></div>
+		<div class="col col-50"><button ng-click="goState('{{key}}')" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{mode.name}}</span></button></div>
+		<div class="col col-50"><button ng-click="goState(find.index($index+1))" class="button button-block button-stable"><i class="icon ion-ios-lightbulb-outline"></i><span class="text">{{find.key($index+1).name}}</span></button></div>
 	</div>
 <!--
 	<div class="row">

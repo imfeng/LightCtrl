@@ -4,7 +4,7 @@
   }
 </style>
 
-<ion-view view-title="{{mode.name}}">
+<ion-view view-title="{{modeName}}">
   <ion-nav-bar class="bar-positive">
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -35,7 +35,7 @@
     </div>
   -->
     <!-- href="#/tab/modes/edit/{{modeName}}/{{sec.ab_section}}" -->
-    <ion-item ng-repeat="sec in mode.sections | filter : {mode:'!!'} "class="sectionItem" ng-click="openModal($index)">
+    <ion-item ng-repeat="sec in sections | filter : {mode:'!!'} "class="sectionItem" ng-click="openModal($index)">
 
         <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
           Delete
@@ -51,14 +51,14 @@
     </ion-item>
 
   </ion-list>
-      <button class="button button-full button-dark" ng-click="changeDef()">
-  使用預設值
-</button>
-    <button class="button button-full button-positive" ng-click="addSection()">
+    <button class="button button-full button-positive" ng-click="addSection()" ng-show="isCustom">
   增加
 </button>
-    <button class="button button-full button-positive" ng-click="saveMode()">
+    <button class="button button-full button-positive" ng-click="saveMode()" ng-show="isCustom">
   儲存目前設定
+</button>
+    <button class="button button-full button-positive" ng-click="openConnectModal()">
+  開啟
 </button>
 
 
