@@ -437,8 +437,7 @@ return{
             
             return true;
         },
-
-        allToCmd: function() {
+        sectionsToCmd: function(sections){
             var temp = '';
             var sta = String.fromCharCode(65);
             var end = String.fromCharCode(90);
@@ -451,7 +450,7 @@ return{
             }
             var phone_min = date.getUTCMinutes();
 
-            var curSections = modes[curMode.key].sections;
+            var curSections = sections;
             var sectionsNum = 0;
 
             var sectionsLength = curSections.length;
@@ -537,7 +536,7 @@ return{
             return temp;
 
         },
-        allToCmdDEBUG: function() {
+        sectionsToCmdDEBUG: function(sections) {
             var temp = '';
             var sta = String.fromCharCode(65);
             var end = String.fromCharCode(90);
@@ -550,7 +549,7 @@ return{
             }
             var phone_min = date.getUTCMinutes();
 
-            var curSections = modes[curMode.key].sections;
+            var curSections = sections;
             var sectionsNum = 0;
 
             var sectionsLength = curSections.length;

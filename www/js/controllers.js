@@ -29,11 +29,15 @@ angular.module('starter.controllers', [])
   });
   
   $scope.delSection = function(rmId){
-    Sections.remove($scope.sections,rmId);
+    if($scope.isCustom){
+      Sections.remove($scope.sections,rmId);
 
-    //$scope.data = Sections.saveToStorage();
-    console.log('delSection:');
-    console.log($scope.sections);
+      //$scope.data = Sections.saveToStorage();
+      console.log('delSection:');
+      console.log($scope.sections);
+    }else{
+      alert('預設值無法刪除！')
+    }
   };
   $scope.addSection = function(){
     Sections.addParam($scope.sections,$scope.thisMode.modeId);
@@ -154,42 +158,15 @@ $scope.lightList = lightItem;
     ionicTimePicker.openTimePicker(ipEnd);
   };
 
+/**/
 
-  $scope.defValue = {d:0};
-
-  $scope.changeDef = function(){
-    var modePopup = $ionicPopup.show({
-      templateUrl: 'templates/changeDef.html',
-      title: '預設設定',
-      scope: $scope,
-      buttons: [
-        {
-          text: '<b>確定</b>',
-          type: 'button-positive',
-          onTap: function(e) {
-                switch($scope.defValue.d) {
-                  case '0':
-                   $scope.defModeCus();
-                   break;
-                  case '1':
-                    $scope.defModeNature();
-                    break;
-                  case '2':
-                      $scope.defModeLong();
-                      break;
-                }
-          }
-        }
-      ]
-    });
-
-    modePopup.then(function(res) {
-      console.log('Tapped!', res);
-    });
-
-    $timeout(function() {
-         modePopup.close();
-    }, 5000);
+  $scope.sendToLight = function(){
+    
+    //$scope.DEBUG = debugMocks.dump(Sections.allToCmdDEBUG());
+    
+    myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections));
+    //console.log(Sections.allToCmd());
+    
   }
  
 
