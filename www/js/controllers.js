@@ -194,7 +194,7 @@ $scope.lightList = lightItem;
  
 
 })
-.controller('patternsCtrl', function(connectBtModal, $stateParams, myBluetooth, $state, $ionicLoading,$scope, Sections) {
+.controller('patternsCtrl', function(connectBtModal, $stateParams, $state, $ionicLoading,$scope, Sections) {
 /* Bluetooth Status Icon @header-bar*/
   // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
   $scope.connectBtModal ={
@@ -282,7 +282,7 @@ $scope.timeDatas= [$scope.timeData];
 
 
 })
-.controller('modesCtrl', function(connectBtModal, myBluetooth, $ionicPopup, lightItemKey, $state, $ionicLoading,$scope, Sections, debugMocks, $rootScope) {
+.controller('modesCtrl', function(connectBtModal, $ionicPopup, lightItemKey, $state, $ionicLoading,$scope, Sections, debugMocks, $rootScope) {
   
   /* Bluetooth Status Icon @header-bar*/
   // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
@@ -302,7 +302,6 @@ $scope.timeDatas= [$scope.timeData];
   $scope.modes = Sections.getModesData();
   $scope.curMode = Sections.getCurMode();
   $scope.lightList = lightItemKey;
-  $scope.btStatus = myBluetooth.btStatus;
 
   $scope.goState = function(modeName){
     //alert('GG');
@@ -348,12 +347,7 @@ $scope.timeDatas= [$scope.timeData];
 
     Sections.saveCurMode();
   }
-  $scope.sendToLight = function(){
-    //$scope.DEBUG = debugMocks.dump(Sections.allToCmdDEBUG());
-    myBluetooth.sendCmd(Sections.allToCmd());
-    //console.log(Sections.allToCmd());
-    
-  }
+
 
 
 })

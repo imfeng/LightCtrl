@@ -58,12 +58,7 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="padding">
-<div class="list">
-	<div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
-			<ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
-			<h2>{{btStatus.stat}}</h2>
-		</div>
-</div>
+
 <div class="modes">
 	<!-- <span class="inUsed">目前使用中</span> -->
 	<div ng-repeat=" (key,pattern) in mode.patterns" ng-if="$index % 2 == 0" class="row">

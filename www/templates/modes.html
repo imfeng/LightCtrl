@@ -58,12 +58,7 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="padding">
-<div class="list">
-	<div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
-			<ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
-			<h2>{{btStatus.stat}}</h2>
-		</div>
-</div>
+
 <div class="modes">
 	<!-- ng-class="{isActive : key==curMode.key }"  <span class="inUsed">目前使用中</span> -->
 	<div ng-repeat=" (key,mode) in modes" ng-if="$index % 2 == 0" class="row">
@@ -85,12 +80,13 @@
 	</div>
 -->
 </div>
+<!--
   <button class="button button-block button-positive" ng-click="sendToLight()">
   同步到裝置
 </button>
   <button class="button button-block button-dark" ng-click="changeMode()">
   更改Mode
 </button>
-
+-->
   </ion-content>
 </ion-view>
