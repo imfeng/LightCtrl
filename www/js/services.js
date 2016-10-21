@@ -56,7 +56,7 @@ angular.module('starter.services', [])
       };
       $scope.sendCmd = function(){
 
-        myBluetooth.sendCmd($scope.data);
+        myBluetooth.sendCmd();
 
       };
     }); 
@@ -353,7 +353,7 @@ return{
             return modes[modeName].modeId;
         },
         getPattern: function(modeName,index){
-            return modes[modeName].patterns[index];
+            return modes[modeName].patterns[index] || false;
         },
         getCurMode: function(){
             return curMode;
@@ -373,9 +373,10 @@ return{
         saveMode: function(sections,modeName,patternKey){
             var newData = [];
             var tmpSec = {};
-            var index = 0;
             var data = sections;
+            modes[modeName].patterns[patternKey].sections.splice(0,modes[modeName].patterns[patternKey].sections.length);
 
+            var index = 0;
             for (var i = 0; i < data.length; i++) {
                 if (typeof(data[i].mode)=='undefined') {
 
@@ -389,13 +390,14 @@ return{
                         'endHour': data[i].endHour,
                         'endMin': data[i].endMin,
                     }
-                    newData.push(tmpSec);
+                    modes[modeName].patterns[patternKey].sections.push(tmpSec);
+                    //newData.push(tmpSec);
                     index++;
                 }
             };
-            console.log('save:');
-            console.log(newData);
-            modes[modeName].patterns[patternKey].sections = newData;
+            //console.log('save:');
+            //console.log(newData);
+            //modes[modeName].patterns[patternKey].sections = newData;
             console.log('modes[modeName]:');
             console.log(modes[modeName]);
             window.localStorage[modeName] = angular.toJson(modes[modeName], false);
@@ -639,7 +641,7 @@ return{
 
     };
 })
-.factory('myBluetooth', function($cordovaBluetoothSerial, $timeout, debugMocks) {
+.factory('myBluetooth', function(currentMode, $cordovaBluetoothSerial, $timeout, debugMocks) {
 
     btStatus = {
         btSettingIsEnabled: false,
@@ -799,25 +801,45 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
                 }
             );
         },
-        sendCmd: function(cmd) {
-        if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
-            btStatus.isLoading = true;
-            setStatus('Sending...');
-            $cordovaBluetoothSerial.write(cmd).then(
-                function(succ) {
-                    btStatus.isLoading = false;
-                    alert('Sended!!');
-                },
-                function(err) {
-                    btStatus.isLoading = false;
-                    setStatus('Send CMD ERROR!\nplz check bluetooth status');
-                }
-            );
+        sendCmd: function(cmd,type,mode,pattern) {
+            if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
+                btStatus.isLoading = true;
+                setStatus('Sending...');
+                $cordovaBluetoothSerial.write(cmd).then(
+                    function(succ) {
+                        btStatus.isLoading = false;
+                        currentMode.setInfo(type,mode,pattern);
+                        alert('Sended!!');
 
-        }else{
-            alert('未與裝置連線！請到"Connect"設定！');
-        };
-            
+                    },
+                    function(err) {
+                        btStatus.isLoading = false;
+                        setStatus('Send CMD ERROR!\nplz check bluetooth status');
+                    }
+                );
+
+            }else{
+                alert('未與裝置連線！請到"Connect"設定！');
+            };
+        },
+        sendCmdOri: function(cmd) {
+            if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
+                btStatus.isLoading = true;
+                setStatus('Sending...');
+                $cordovaBluetoothSerial.write(cmd).then(
+                    function(succ) {
+                        btStatus.isLoading = false;
+                        alert('Sended!!');
+                    },
+                    function(err) {
+                        btStatus.isLoading = false;
+                        setStatus('Send CMD ERROR!\nplz check bluetooth status');
+                    }
+                );
+
+            }else{
+                alert('未與裝置連線！請到"Connect"設定！');
+            };
         },
     };
     /*
@@ -838,13 +860,42 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
 */
 
 })
+.factory('currentMode', function(){
 
+    var info = {
+        type: -1,
+        mode: -1,
+        pattern: -1
+    }
+    if (window.localStorage['deviceInfo']) {info = angular.fromJson(window.localStorage['deviceInfo'])};
+    return{
+        info:info,
+        setInfo: function(type,mode,pattern){
+            info.type = type;
+            info.mode = mode || info.mode;
+            info.pattern = pattern || info.pattern;
+            window.localStorage['deviceInfo'] = angular.toJson(info);
+        }
+    }
+
+})
 .filter('numberFixedLen', function() {
     return function(a, b) {
         return (1e4 + "" + a).slice(-b);
     };
 })
-
+.filter('lightType', function() {
+    return function(a) {
+        switch (a) {
+            case 0:
+                return '自動模式';
+            case 1:
+                return '手動模式';
+            default:
+                return '尚未初始化';
+        }
+    };
+})
 .filter('lightName', function() {
     return function(a) {
         switch (a) {
@@ -857,12 +908,44 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
             case 3:
                 return '太陽光20m';
             case 4:
-                return '高衍色性太陽光';
+                return '高演色性太陽光';
             case 5:
                 return '藍光';
             default:
-                return 'Unknown';
+                return '無';
         }
+    };
+})
+.filter('lightKeyToName', function() {
+    return function(a) {
+        switch (a) {
+            case 'sun5m':
+                return '太陽光5m';
+            case 'sun10m':
+                return '太陽光10m';
+            case 'sun15m':
+                return '太陽光15m';
+            case 'sun20m':
+                return '太陽光20m';
+            case 'cri':
+                return '高演色性太陽光';
+            case 'blue':
+                return '藍光';
+            default:
+                return '無';
+        }
+    };
+})
+.filter('patternKeyToName', function(Sections) {
+    return function(a,modeName) {
+        console.log('modeName:'+modeName);
+        console.log('index_ a:'+a);
+        if (typeof(a) == 'undefined' || typeof(modeName)=='undefined') {
+            return 'ERROR';
+        }else{
+            return Sections.getPattern(modeName,a).name;
+        }
+        
     };
 })
     .filter('DeviceStatusIsConnected', function() {
@@ -877,4 +960,27 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
                     return 'ERROR';
             }
         };
-    });
+    })
+
+.constant('lightItem', [
+   {ID: 0, Title: '太陽光5m'},
+   {ID: 1, Title: '太陽光10m'},
+   {ID: 2, Title: '太陽光15m'},
+   {ID: 3, Title: '太陽光20m'},
+   {ID: 4, Title: '高演色性太陽光'},
+   {ID: 5, Title: '藍光'},
+  ] )
+.constant('lightItemKey', [
+   {ID: 'sun5m', Title: '太陽光5m'},
+   {ID: 'sun10m', Title: '太陽光10m'},
+   {ID: 'sun15m', Title: '太陽光15m'},
+   {ID: 'sun20m', Title: '太陽光20m'},
+   {ID: 'cri', Title: '高演色性太陽光'},
+   {ID: 'blue', Title: '藍光'},
+  ] )
+.constant('currentModes', [
+   {ID: -1, Title: '尚未初始化'},
+   {ID: 0, Title: '自動模式'},
+   {ID: 1, Title: '手動模式'},
+  ] )
+;

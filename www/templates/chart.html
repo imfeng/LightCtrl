@@ -1,17 +1,21 @@
 
-<ion-modal-view>
+<ionview>
   <ion-header-bar>
     <h1 class="title">Chart</h1>
   </ion-header-bar>
   <ion-content class="padding">
+
   	<div class="card">
         <div class="item item-divider">
             亮度表
         </div>
-        <div class="item item-text-wrap">
-            <canvas id="line" class="chart chart-line" data="timeDatas" labels="timeLabels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+        <div id="chartBox" class="item item-text-wrap">
+            <canvas id="line" class="chart chart-line" data="chartData.timeDatas" labels="chartData.timeLabels" legend="true" series="series" options="{showTooltips: false}"></canvas>
         </div>
     </div>
+<button class="button button-full button-positive" ng-click="reChart()" >
+  Refresh
+</button>
 <!--
     <div class="card">
         <div class="item item-divider">
@@ -23,4 +27,7 @@
     </div>
 -->
   </ion-content>
-</ion-modal-view>
+   <ion-footer-bar align-title="left" class="bar-stable">
+  <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+</ion-footer-bar>
+</ionview>

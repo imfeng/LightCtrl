@@ -4,3 +4,6 @@
 	ion-nav-bar .ion-bluetooth.isBtConnected:before{
 		color: chartreuse!important;
 	}
+	ion-footer-bar .title{
+		font-size: 1.1em!important;
+	}

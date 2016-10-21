@@ -111,19 +111,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
 
 })
 
-.constant('lightItem', [
-   {ID: 0, Title: '太陽光5m'},
-   {ID: 1, Title: '太陽光10m'},
-   {ID: 2, Title: '太陽光15m'},
-   {ID: 3, Title: '太陽光20m'},
-   {ID: 4, Title: '高演色性太陽光'},
-   {ID: 5, Title: '藍光'},
-  ] )
-.constant('lightItemKey', [
-   {ID: 'sun5m', Title: '太陽光5m'},
-   {ID: 'sun10m', Title: '太陽光10m'},
-   {ID: 'sun15m', Title: '太陽光15m'},
-   {ID: 'sun20m', Title: '太陽光20m'},
-   {ID: 'cri', Title: '高演色性太陽光'},
-   {ID: 'blue', Title: '藍光'},
-  ] );
+;

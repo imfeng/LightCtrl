@@ -4,7 +4,7 @@
   }
 </style>
 
-<ion-view view-title="{{modeName}}">
+<ion-view view-title="{{modeName | lightKeyToName}} - {{patternKey | patternKeyToName:modeName}}">
   <ion-nav-bar class="bar-positive">
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -14,13 +14,13 @@
   </ion-nav-bar>
   <ion-content class="has-header padding">
 <div class="list">
-  <div class="item fontCenter cssSlideUp" ng-show="btStatus.isNotice">
-      <ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
-      <h2>{{btStatus.stat}}</h2>
+  <div class="item fontCenter cssSlideUp" ng-show="connectBtModal.btStatus.isNotice">
+      <ion-spinner icon="lines" ng-show="connectBtModal.btStatus.isLoading"></ion-spinner>
+      <h2>{{connectBtModal.btStatus.stat}}</h2>
     </div>
 </div>
 
-    <button class="button button-full button-positive" ng-click="sendToLight()">
+    <button class="button button-full button-balanced" ng-click="sendToLight()">
   傳送此設置到裝置中
 </button>
   <ion-list >
@@ -66,4 +66,7 @@
 </button>
 
   </ion-content>
+    <ion-footer-bar align-title="left" class="bar-stable">
+  <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+</ion-footer-bar>
 </ion-view>

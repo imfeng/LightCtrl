@@ -49,16 +49,9 @@
     </button>
 
   </div>
-  <!--
-<pre>
-  id:{{thisSection['id']}}
-  smode:{{thisSection['smode']}}
-  section:{{thisSection['section']}}
-  setHour:{{thisSection['setHour']}}
-  setMin:{{thisSection['setMin']}}
-  mode:{{thisSection['mode']}}
-  multiple:{{thisSection['multiple']}}
-</pre>
--->
+
   </ion-content>
+    <ion-footer-bar align-title="left" class="bar-stable">
+  <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+</ion-footer-bar>
 </ion-view>
