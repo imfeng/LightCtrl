@@ -792,17 +792,32 @@ if(!tmpConflict){
                 alert('No Device Connected!');
             }
         }
-        /*
+        
         $scope.sendCmd = function() {
             if (btStatus.currentDeviceStatus) {
-                var cmd = String.fromCharCode(250) + String.fromCharCode($scope.thisSection.mode) + String.fromCharCode($scope.thisSection.multiple) + String.fromCharCode(255);
-                myBluetooth.sendCmd(cmd, 1);
+                var tempLines = "";
+                for (var i =  0; i < $scope.thisSection['lines'].length; i++) {
+                    tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
+                }
+                var cmd = String.fromCharCode(240) + tempLines + String.fromCharCode(255);
+                myBluetooth.sendCmd(cmd, 2); //工程模式
             } else {
                 alert('No Device Connected!');
             }
         }
-        */
-    } else {}
+        
+    } else {
+        $scope.sendCmd = function() {
+                var tempLines = "";
+                for (var i =  0; i < $scope.thisSection['lines'].length; i++) {
+                    tempLines += $scope.thisSection['lines'][i].toString() + ",";
+                }
+                var cmd = String.fromCharCode(240) + tempLines + String.fromCharCode($scope.thisSection['multiple']) + String.fromCharCode(255);
+                console.log("CMD:\n");
+                console.log(debugMocks.dump(tempLines));
+        }
+
+    }
 
 })
 ;

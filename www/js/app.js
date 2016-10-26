@@ -26,19 +26,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
 .config(function($stateProvider, $urlRouterProvider) {
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/dev-mode');
+  $urlRouterProvider.otherwise('/tab/modes');
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
 
-  $stateProvider.state('dev-mode',{
-    url:'/dev-mode',
-    abstract: false,
-    templateUrl: 'templates/dev-mode.html',
-    controller: 'devModeCtrl'
-    
-  })
+  $stateProvider
 
   // setup an abstract state for the tabs directive
   .state('tab', {
@@ -47,7 +41,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     templateUrl: 'templates/tabs.html'
   })
 
+  .state('tab.devMode',{
+    url:'/devMode',
+    views: {
+      'tab-devMode': {
+        templateUrl: 'templates/dev-mode.html',
+        controller: 'devModeCtrl'
+      }
+    }
 
+    
+  })
   // Each tab has its own nav history stack:
   .state('tab.modes', {
     url: '/modes',

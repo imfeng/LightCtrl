@@ -886,6 +886,8 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
                     return '自動模式';
                 case 1:
                     return '手動模式';
+                case 2:
+                    return '工程模式';
                 default:
                     return '尚未初始化';
             }
@@ -977,4 +979,5 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
         { ID: -1, Title: '尚未初始化' },
         { ID: 0, Title: '自動模式' },
         { ID: 1, Title: '手動模式' },
+        { ID: 2, Title: '工程模式' }
     ]);
