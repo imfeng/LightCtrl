@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
 #include <EEPROM.h>
-#include "Tlc5940.h"
+#include <Tlc5940.h>
 #define	DATA_COMMAND	0X40
 #define	DISP_COMMAND	0x80
 #define	ADDR_COMMAND	0XC0
@@ -17,12 +17,13 @@ int tempsensor=A1;
 // 128(%亮度)  * 32(最大參數) = 4096
 // 0 ~ 128 -> 100% ~ 0%
 // 
-unsigned char five[7]={27,27,52,11,11,16,16};//4096/30x20/100
-unsigned char ten[7]={25,20,27,12,12,16,16};
-unsigned char fifteen[7]={27,10,30,15,15,19,19};
-unsigned char twenty[7]={27,0,35,15,15,22,22};
-unsigned char highcolor[7]={23,40,26,11,11,15,15};
-unsigned char blue[7]={0,0,40,40,40,40,40};
+unsigned char five[14]={27,27,52,11,11,16,16,0,0,0,0,0,0,0};//4096/30x20/100
+unsigned char ten[14]={25,20,27,12,12,16,16,0,0,0,0,0,0,0};
+unsigned char fifteen[14]={27,10,30,15,15,19,19,0,0,0,0,0,0,0};
+unsigned char twenty[14]={27,0,35,15,15,22,22,0,0,0,0,0,0,0};
+unsigned char highcolor[14]={23,40,26,11,11,15,15,0,0,0,0,0,0,0};
+unsigned char blue[14]={0,0,40,40,40,40,40,0,0,0,0,0,0,0};
+
 
 
 /**/
@@ -198,7 +199,7 @@ void loop() // run over and over
       Serial.print("!!Automation Mode!!nowtime=");
       Serial.println(nowmin);
       
-      int tempmai = 1;
+      int tempmax = 1;
       for (char y = 0; y < totalnum; y++) {
         if (nowmin >= datacode[y][0]) tempmax = max(tempmax, datacode[y][0]);
         //find the next setting to change and get the tempmax
