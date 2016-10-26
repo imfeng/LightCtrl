@@ -742,4 +742,67 @@ if(!tmpConflict){
         }
     } else {}
 
-});
+})
+.controller('devModeCtrl', function(currentMode, connectBtModal, myBluetooth, $scope, ionicTimePicker, debugMocks) {
+
+    $scope.linesNum = [0,1,2,3,4,5,6,7,8,9,10,11];
+
+    /* Bluetooth Status Icon @header-bar*/
+    // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+    $scope.connectBtModal = {
+        btStatus: connectBtModal.btStatus,
+        openModal: function() {
+            connectBtModal
+                .init()
+                .then(function(modal) {
+                    modal.show();
+                });
+        }
+    }
+    $scope.btStatus = myBluetooth.btStatus;
+
+    $scope.thisSection = {
+        'mode': 0,
+        'multiple': 0,
+        'lines': [0,0,0,0,0,0,0,0,0,0,0,0],
+    };
+
+    var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
+    $scope.isConnectedFunc = function() {}
+    $scope.sendCmd = function() {
+        if (!btStatus.currentDeviceStatus) {
+            alert('cordova ERROR')
+        };
+    }
+    $scope.sendDisableManualCmd = function() {
+        if (!btStatus.currentDeviceStatus) {
+            alert('cordova ERROR')
+        };
+    }
+    $scope.currentMode = currentMode.info;
+
+    /* Cordova */
+
+    if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
+        $scope.sendDisableManualCmd = function() {
+            if (btStatus.currentDeviceStatus) {
+                myBluetooth.sendCmd(disableManualCmd, 0);
+                //myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections),'手動模式','','');
+            } else {
+                alert('No Device Connected!');
+            }
+        }
+        /*
+        $scope.sendCmd = function() {
+            if (btStatus.currentDeviceStatus) {
+                var cmd = String.fromCharCode(250) + String.fromCharCode($scope.thisSection.mode) + String.fromCharCode($scope.thisSection.multiple) + String.fromCharCode(255);
+                myBluetooth.sendCmd(cmd, 1);
+            } else {
+                alert('No Device Connected!');
+            }
+        }
+        */
+    } else {}
+
+})
+;

@@ -1,0 +1,42 @@
+<style>
+.range{
+	padding: 0 11px;
+}
+</style>
+<ion-view view-title="Develpement">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+        <div class="list">
+            <div class="item fontCenter cssSlideUp" ng-show="isNotice">
+                <ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
+                <h2>{{btStatus.stat}}</h2>
+            </div>
+
+			<div class="item range range-positive">
+            	<i class="icon ion-ios-sunny"></i>
+                <input type="range" name="volume" min="0" max="100" ng-model="thisSection['multiple']">
+                <span > {{thisSection['multiple']}}%</span>
+            </div>
+            <div ng-repeat="n in linesNum" class="item range range-positive">
+            	<span>No.{{n+1}}</span>
+                <input type="range" name="volume" min="0" max="36" ng-model="thisSection['lines'][n]">
+                <span>{{thisSection['lines'][n]}}</span>
+            </div>
+            <button class="button button-block button-dark" ng-click="sendDisableManualCmd()">
+                關閉裝置的手動模式
+            </button>
+            <button class="button button-block button-balanced" ng-click="sendCmd()">
+                傳送目前設置
+            </button>
+        </div>
+    </ion-content>
+    <ion-footer-bar align-title="left" class="bar-stable">
+        <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+    </ion-footer-bar>
+</ion-view>
