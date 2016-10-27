@@ -25,7 +25,7 @@
             </div>
             <div ng-repeat="n in linesNum" class="item range range-positive">
             	<span>No.{{n+1}}</span>
-                <input type="range" name="volume" min="0" max="40" ng-model="thisSection['lines'][n]">
+                <input type="range" name="volume" min="0" max="100" ng-model="thisSection['lines'][n]">
                 <span>{{thisSection['lines'][n]}}</span>
             </div>
             <button class="button button-block button-dark" ng-click="sendDisableManualCmd()">

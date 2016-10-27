@@ -799,7 +799,7 @@ if(!tmpConflict){
                 for (var i =  0; i < $scope.thisSection['lines'].length; i++) {
                     tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
                 }
-                var cmd = String.fromCharCode(240) + tempLines + String.fromCharCode(255);
+                var cmd = 'A' + tempLines + 'Z';
                 myBluetooth.sendCmd(cmd, 2); //工程模式
             } else {
                 alert('No Device Connected!');
@@ -812,7 +812,7 @@ if(!tmpConflict){
                 for (var i =  0; i < $scope.thisSection['lines'].length; i++) {
                     tempLines += $scope.thisSection['lines'][i].toString() + ",";
                 }
-                var cmd = String.fromCharCode(240) + tempLines + String.fromCharCode($scope.thisSection['multiple']) + String.fromCharCode(255);
+                var cmd = 'A' + tempLines + 'Z';
                 console.log("CMD:\n");
                 console.log(debugMocks.dump(tempLines));
         }
