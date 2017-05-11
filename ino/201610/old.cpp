@@ -22,6 +22,7 @@ unsigned int datacode[72][3];//[section][starttime、mode、multiple]
 unsigned char i,SEC;
 unsigned int nowmin=0,phonetime=0;
 char out1,out2,out3,out4,out5,out6,out7;
+
 unsigned long long firstMachineMin = 0;
 bool isManual = false;
 unsigned int manualDatacode[2]={0};//[mode、multiple]
@@ -82,9 +83,9 @@ void loop() // run over and over
           
           Serial.println(temp[j]);
           }
-        Serial.println("=======================");
-           Serial.print("auto Command Recieved");
-                  i=-1;
+          Serial.println("=======================");
+          Serial.print("auto Command Recieved");
+          i=-1;
           /*
           RX Data form
           k +1  +2      +3      +4     +5   +6       +7       +8
@@ -96,9 +97,9 @@ void loop() // run over and over
           datacode[SEC][0]=temp[k+3]*60+temp[4];//starttime=Sethour*60+Settmin
           datacode[SEC][1]=temp[k+5];//Mode: Mode0->5M ,Mode1->10M ,Mode2->15M ,Mode3->20M ,Mode4->highcolor,Mode5->blue
           datacode[SEC][2]=temp[k+6];//multiple
-            firstMachineMin = millis();
-            phonetime=temp[k+7]*60+temp[k+8];
-            Serial.println("Init firstMachineMin=" + firstMachineMin);
+          firstMachineMin = millis();
+          phonetime=temp[k+7]*60+temp[k+8];
+          Serial.println("Init firstMachineMin=" + firstMachineMin);
         }
       }
       
@@ -177,8 +178,8 @@ void loop() // run over and over
         }
       }
     }else if(isManual){
-Serial.print("!!ManualMode!!");
-      //find the all data
+        Serial.print("!!ManualMode!!");
+        //find the all data
         //datacode[section][starttime、mode、multiple]
         if(manualDatacode[0]==0) {for(char b=0;b<7;b++)Tlc.set(b, 4095-manualDatacode[1]*five[b]);}
         if(manualDatacode[0]==1) {for(char b=0;b<7;b++)Tlc.set(b, 4095-manualDatacode[1]*ten[b]);}

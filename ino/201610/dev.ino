@@ -45,6 +45,9 @@ unsigned int manualDatacode[2]={0};//[mode、multiple]
 
 void setup() {
   Tlc.init();
+  /* 燈泡亮度0 */
+  for (char b = 0; b < 16; b++) Tlc.set(b, 4095);
+    Tlc.update();
 
   /* EEPROM 讀取資料 */
   out1 = EEPROM.read(1);
@@ -72,9 +75,6 @@ void setup() {
   //analogWrite(fanspeed,0);
   //Tlc.clear();
 
-  /* 燈泡亮度0 */
-  for (char b = 0; b < 7; b++) Tlc.set(b, 4095);
-  Tlc.update();
 
   Write_DATA(0, seg[8]);
   Write_DATA(2, seg[9]);

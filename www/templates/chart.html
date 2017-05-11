@@ -1,22 +1,50 @@
 
+<style>
+        h3{
+          font-weight: bold;
+          text-align: center;
+        }
+        #chartBox {
+            position: relative;
+            overflow: auto;
+        }
+
+        #chartBox canvas {
+            height:270px;
+            
+            /*position: absolute;*/
+            left: 0;
+            top: 0;
+            pointer-events:none;
+        }
+
+        #chartBox .chart-container{
+            width: 100%;
+            height:330px;
+            
+        }
+</style>
 <ionview>
   <ion-header-bar>
     <h1 class="title">Chart</h1>
   </ion-header-bar>
   <ion-content class="padding">
+  <h3>亮度表</h3>
 
-  	<div class="card">
-        <div class="item item-divider">
-            亮度表
-        </div>
-        <div id="chartBox" class="item item-text-wrap">
-            <canvas id="line" class="chart chart-line" data="chartData.timeDatas" labels="chartData.timeLabels" legend="true" series="series" options="{showTooltips: false}"></canvas>
-        </div>
-    </div>
+  <div id="chartBox" class="item item-text-wrap">
+      <canvas id="line" class="chart chart-line" data="chartData.timeDatas" labels="chartData.timeLabels" legend="true" series="series" options="{showTooltips: false,responsive: false,maintainAspectRatio: true}"
+      ></canvas>
+  </div>
+    
 <button class="button button-full button-positive" ng-click="reChart()" >
   Refresh
 </button>
 <!--
+    <div class="card">
+        <div class="item item-divider">
+            亮度表
+        </div>
+    </div>
     <div class="card">
         <div class="item item-divider">
             A bar chart

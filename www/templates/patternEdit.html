@@ -1,39 +1,39 @@
 <style>
-  .item-content{
-    padding: 5px!important;
-  }
+    .item-content {
+        padding: 5px!important;
+    }
 </style>
 
 <ion-view view-title="{{modeName | lightKeyToName}} - {{patternKey | patternKeyToName:modeName}}">
-  <ion-nav-bar class="bar-positive">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
-    <ion-nav-buttons side="right">
-      <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
-    </ion-nav-buttons>
-  </ion-nav-bar>
-  <ion-content class="has-header padding">
-<div class="list">
-  <div class="item fontCenter cssSlideUp" ng-show="connectBtModal.btStatus.isNotice">
-      <ion-spinner icon="lines" ng-show="connectBtModal.btStatus.isLoading"></ion-spinner>
-      <h2>{{connectBtModal.btStatus.stat}}</h2>
-    </div>
-</div>
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="has-header padding">
+        <div class="list">
+            <div class="item fontCenter cssSlideUp" ng-show="connectBtModal.btStatus.isNotice">
+                <ion-spinner icon="lines" ng-show="connectBtModal.btStatus.isLoading"></ion-spinner>
+                <h2>{{connectBtModal.btStatus.stat}}</h2>
+            </div>
+        </div>
 
-    <button class="button button-full button-balanced" ng-click="sendToLight()">
+        <button class="button button-full button-balanced" ng-click="sendToLight()">
   傳送此設置到裝置中
 </button>
-  <ion-list >
-    <div class="item item-divider row fontCenter">
-      <div class="col-75">
-        <p>開始時間 ~ 結束時間</p>
-      </div>
+        <ion-list>
+            <div class="item item-divider row fontCenter">
+                <div class="col-75">
+                    <p>起始時間</p>
+                </div>
 
-      <div class="col-25">
-        <p>亮度</p>
-      </div>
-    </div>
-    <!--
+                <div class="col-25">
+                    <p>亮度</p>
+                </div>
+            </div>
+            <!--
     <div class="item sectionItem">
       <div class="row fontCenter ">
         <div class="col-75">06:00 ~ 18:00</div>
@@ -41,32 +41,32 @@
       </div>
     </div>
   -->
-    <!-- href="#/tab/modes/edit/{{modeName}}/{{sec.ab_section}}" -->
-    <ion-item ng-repeat="sec in sections | filter : {mode:'!!'} "class="sectionItem" ng-click="openModal($index)">
+            <!-- href="#/tab/modes/edit/{{modeName}}/{{sec.ab_section}}" -->
+            <ion-item ng-repeat="sec in sections | filter : {mode:'!!'} track by $index" class="sectionItem" ng-click="openModal($index)">
 
-        <ion-option-button class="button-assertive" ng-click="delSection({{sec.ab_section}})">
-          Delete
-        </ion-option-button>
-      <div class="row fontCenter ">
-        <div class="col-75">
-          <p>{{sec.setHour | numberFixedLen: 2}}:{{sec.setMin | numberFixedLen: 2}} ~ {{sec.endHour | numberFixedLen: 2}}:{{sec.endMin | numberFixedLen: 2}}</p>
-        </div>
-        <div class="col-25">
-          <p>{{sec.multiple}}%</p>
-        </div>
-      </div>
-    </ion-item>
+                <ion-option-button class="button-assertive" ng-click="delSection({{$index}})">
+                    Delete
+                </ion-option-button>
+                <div class="row fontCenter ">
+                    <div class="col-75">
+                        <p>{{sec.setHour | numberFixedLen: 2}}:{{sec.setMin | numberFixedLen: 2}}</p>
+                    </div>
+                    <div class="col-25">
+                        <p>{{sec.multiple}}%</p>
+                    </div>
+                </div>
+            </ion-item>
 
-  </ion-list>
-    <button class="button button-full button-positive" ng-click="addSection()" ng-show="isCustom">
+        </ion-list>
+        <button class="button button-full button-positive" ng-click="addSection()" ng-show="isCustom">
   增加
 </button>
-    <button class="button button-full button-positive" ng-click="saveMode()" ng-show="isCustom">
+        <button class="button button-full button-positive" ng-click="saveMode()" ng-show="isCustom">
   儲存目前設定
 </button>
 
-  </ion-content>
+    </ion-content>
     <ion-footer-bar align-title="left" class="bar-stable">
-  <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
-</ion-footer-bar>
+        <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+    </ion-footer-bar>
 </ion-view>
