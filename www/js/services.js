@@ -181,22 +181,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
             'sun10m': {
@@ -206,22 +206,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 1, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 1, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 1, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 1, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 1, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 1, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 1, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 1, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 1, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 1, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 1, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 1, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 1, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 1, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 1, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 1, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 1, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 1, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 1, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 1, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 1, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 1, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 1, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 1, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 1, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
             'sun15m': {
@@ -231,22 +231,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 2, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 2, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 2, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 2, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 2, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 2, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 2, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 2, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 0, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 0, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 0, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 0, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 0, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 0, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 0, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 2, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
             'sun20m': {
@@ -256,22 +256,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 3, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 3, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 3, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 3, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 3, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 3, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 3, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 3, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 3, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 3, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 3, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 3, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 3, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 3, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 3, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 3, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 3, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 3, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 3, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 3, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 3, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 3, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 3, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 3, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 3, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
             'cri': {
@@ -281,22 +281,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 4, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 4, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 4, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 4, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 4, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 4, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 4, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 4, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 4, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 4, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 4, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 4, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 4, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 4, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 4, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 4, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 4, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 4, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 4, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 4, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 4, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 4, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 4, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 4, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 4, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
             'blue': {
@@ -306,22 +306,22 @@ angular.module('starter.services', [])
                 patternChoice: '',
                 patterns: [{
                     name: '長亮',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: '仿太陽光',
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 5, "multiple": 0, "endHour": 7, "endMin": 0 }, { "setHour": 7, "setMin": 0, "mode": 5, "multiple": 17, "endHour": 8, "endMin": 0 }, { "setHour": 8, "setMin": 0, "mode": 5, "multiple": 34, "endHour": 9, "endMin": 0 }, { "setHour": 9, "setMin": 0, "mode": 5, "multiple": 51, "endHour": 10, "endMin": 0 }, { "setHour": 10, "setMin": 0, "mode": 5, "multiple": 68, "endHour": 11, "endMin": 0 }, { "setHour": 11, "setMin": 0, "mode": 5, "multiple": 85, "endHour": 12, "endMin": 0 }, { "setHour": 12, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 13, "endMin": 0 }, { "setHour": 13, "setMin": 0, "mode": 5, "multiple": 85, "endHour": 14, "endMin": 0 }, { "setHour": 14, "setMin": 0, "mode": 5, "multiple": 68, "endHour": 15, "endMin": 0 }, { "setHour": 15, "setMin": 0, "mode": 5, "multiple": 51, "endHour": 16, "endMin": 0 }, { "setHour": 16, "setMin": 0, "mode": 5, "multiple": 34, "endHour": 17, "endMin": 0 }, { "setHour": 17, "setMin": 0, "mode": 5, "multiple": 17, "endHour": 18, "endMin": 0 }, { "setHour": 18, "setMin": 0, "mode": 5, "multiple": 0, "endHour": 0, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 5, "multiple": 0, "endHour": 7, "endMin": 0 }, { "group": 0, "setHour": 7, "setMin": 0, "mode": 5, "multiple": 17, "endHour": 8, "endMin": 0 }, { "group": 0, "setHour": 8, "setMin": 0, "mode": 5, "multiple": 34, "endHour": 9, "endMin": 0 }, { "group": 0, "setHour": 9, "setMin": 0, "mode": 5, "multiple": 51, "endHour": 10, "endMin": 0 }, { "group": 0, "setHour": 10, "setMin": 0, "mode": 5, "multiple": 68, "endHour": 11, "endMin": 0 }, { "group": 0, "setHour": 11, "setMin": 0, "mode": 5, "multiple": 85, "endHour": 12, "endMin": 0 }, { "group": 0, "setHour": 12, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 13, "endMin": 0 }, { "group": 0, "setHour": 13, "setMin": 0, "mode": 5, "multiple": 85, "endHour": 14, "endMin": 0 }, { "group": 0, "setHour": 14, "setMin": 0, "mode": 5, "multiple": 68, "endHour": 15, "endMin": 0 }, { "group": 0, "setHour": 15, "setMin": 0, "mode": 5, "multiple": 51, "endHour": 16, "endMin": 0 }, { "group": 0, "setHour": 16, "setMin": 0, "mode": 5, "multiple": 34, "endHour": 17, "endMin": 0 }, { "group": 0, "setHour": 17, "setMin": 0, "mode": 5, "multiple": 17, "endHour": 18, "endMin": 0 }, { "group": 0, "setHour": 18, "setMin": 0, "mode": 5, "multiple": 0, "endHour": 0, "endMin": 0 }]
                 }, {
                     name: "pattern1",
-                    sections: [{ "setHour": 8, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 8, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern2",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern3",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }, {
                     name: "pattern4",
-                    sections: [{ "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
+                    sections: [{ "group": 0, "setHour": 6, "setMin": 0, "mode": 5, "multiple": 100, "endHour": 18, "endMin": 0 }]
                 }]
             },
         }
@@ -483,13 +483,14 @@ angular.module('starter.services', [])
                             end;
                     };
                 }
+                /*
                 var b = temp.split('').map(function(item) {
                     if (item.charCodeAt(0) == 255) {
                         return '\n';
                     }
                     return item.charCodeAt(0);
                 });
-                console.log(b);
+                console.log(b);*/
                 return temp;
             }
         };
@@ -840,4 +841,13 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
         { ID: 0, Title: '自動模式' },
         { ID: 1, Title: '手動模式' },
         { ID: 2, Title: '工程模式' }
-    ]);
+    ])
+    .filter('range', function() {
+        return function(input, min, max) {
+            min = parseInt(min); //Make string input int
+            max = parseInt(max);
+            for (var i = min; i < max; i++)
+                input.push(i);
+            return input;
+        };
+    });

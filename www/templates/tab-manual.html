@@ -22,49 +22,44 @@
             <div class="item item-icon-left item-select">
                 <!-- class: item-input -->
                 <div class="input-label">
-                    <i class="icon ion-star"></i>
+                    <i class="icon ion-pricetags"></i>
                     <p>群組</p>
                 </div>
-                <select>
-                  <option ng-repeat="n in range(0,10) " value="{{$n}} ">{{$n}}</option>
-                </select>
+                <select ng-model="thisSection.group" ng-options="n for n in [] | range:0:255">
+    </select>
             </div>
-            <div class="item item-icon-left item-select ">
+            <div class="item item-icon-left item-select">
                 <!-- class: item-input -->
-                <div class="input-label ">
-                    <i class="icon ion-star "></i>
+                <div class="input-label">
+                    <i class="icon ion-star"></i>
                     <p>發光模式</p>
                 </div>
-                <select ng-model="thisSection[ 'mode'] " ng-options="lightItem.ID as lightItem.Title for lightItem in lightList ">
+                <select ng-model="thisSection['mode']" ng-options="lightItem.ID as lightItem.Title for lightItem in lightList">
     </select>
             </div>
 
-            <div class="item item-icon-left ">
-                <i class="icon ion-ios-sunny "></i> 亮度
-                <span class="item-note ">
+            <div class="item item-icon-left">
+                <i class="icon ion-ios-sunny"></i> 亮度
+                <span class="item-note">
           {{thisSection['multiple']}}%
         </span>
             </div>
-            <div class="item range range-positive ">
-                <i class="icon ion-ios-lightbulb "></i>
-                <input type="range " name="volume " min="0 " max="30 " ng-model="thisSection[ 'multiple'] ">
-                <i class="icon ion-ios-lightbulb-outline "></i>
+            <div class="item range range-positive">
+                <i class="icon ion-ios-lightbulb"></i>
+                <input type="range" name="volume" min="0" max="100" ng-model="thisSection['multiple']">
+                <i class="icon ion-ios-lightbulb-outline"></i>
             </div>
-            <button class="button button-block button-dark " ng-click="showDefineGroup() ">
-      設置該燈所屬群組
+            <button class="button button-block button-dark" ng-click="showDefineGroupPopup()">
+      設置燈泡所屬群組
     </button>
-            <!-- /* 取消關閉手動 201705 */
-            <button class="button button-block button-dark " ng-click="sendDisableManualCmd() ">
-      關閉裝置的手動模式
-    </button>-->
-            <button class="button button-block button-balanced " ng-click="sendCmd() ">
+            <button class="button button-block button-balanced" ng-click="sendCmd()">
       傳送目前設置
     </button>
 
         </div>
 
     </ion-content>
-    <ion-footer-bar align-title="left " class="bar-stable ">
-        <h1 class="title ">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0 ">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
+    <ion-footer-bar align-title="left" class="bar-stable">
+        <h1 class="title">目前模式：{{currentMode.type | lightType}} <span ng-show="currentMode.type==0">- {{currentMode.mode | lightKeyToName}} - {{currentMode.pattern | patternKeyToName:currentMode.mode}}</span></h1>
     </ion-footer-bar>
 </ion-view>

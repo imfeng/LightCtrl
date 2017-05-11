@@ -25,8 +25,11 @@
 </button>
         <ion-list>
             <div class="item item-divider row fontCenter">
-                <div class="col-75">
+                <div class="col-50">
                     <p>起始時間</p>
+                </div>
+                <div class="col-25">
+                    <p>群組</p>
                 </div>
 
                 <div class="col-25">
@@ -48,8 +51,11 @@
                     Delete
                 </ion-option-button>
                 <div class="row fontCenter ">
-                    <div class="col-75">
+                    <div class="col-50">
                         <p>{{sec.setHour | numberFixedLen: 2}}:{{sec.setMin | numberFixedLen: 2}}</p>
+                    </div>
+                    <div class="col-25">
+                        <p>{{sec.group}}</p>
                     </div>
                     <div class="col-25">
                         <p>{{sec.multiple}}%</p>

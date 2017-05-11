@@ -729,6 +729,8 @@ if(!tmpConflict){
             'multiple': 0,
             'group': 0
         };
+        console.log('$scope.thisSection');
+        console.log($scope.thisSection.groupid);
         $scope.thisGroup = {
                 'value': 0
             }
@@ -747,7 +749,34 @@ if(!tmpConflict){
             };
         }
         $scope.currentMode = currentMode.info;
-        $scope.sendDefineGroup = {}
+        $scope.showDefineGroupPopup = function() {
+            var defineGroupPopup = $ionicPopup.show({
+                templateUrl: 'templates/popup-defineGroup.html',
+                title: '設置群組',
+                scope: $scope,
+                buttons: [{
+                    text: '取消'
+                }, {
+                    text: '<b>傳送設置</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        //alert(debugMocks.dump($ionicHistory.viewHistory()));
+                        $scope.sendDefineGroup();
+                    }
+                }]
+            });
+
+            defineGroupPopup.then(function(res) {
+                console.log('Tapped!', res);
+            });
+
+            $timeout(function() {
+                defineGroupPopup.close();
+            }, 5000);
+        }
+        $scope.sendDefineGroup = function() {
+                console.log('thisGroup.value' + thisGroup.value);
+            }
             /* Cordova */
 
         if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {

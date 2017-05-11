@@ -1,3 +1,11 @@
-<select ng-model="thisGroup['value']">
-                  <option ng-repeat="item in items | limitTo:255 ">{{item}}</option>
+<div class="list">
+    <div class="item item-icon-left item-select">
+        <!-- class: item-input -->
+        <div class="input-label">
+            <i class="icon ion-pricetags"></i>
+            <p>群組</p>
+        </div>
+        <select ng-model="thisGroup.value" ng-options="n for n in [] | range:0:255">
     </select>
+    </div>
+</div>

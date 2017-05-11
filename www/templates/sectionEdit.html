@@ -17,10 +17,11 @@
             <div class="item item-icon-left item-select">
                 <!-- class: item-input -->
                 <div class="input-label">
-                    <i class="icon ion-star"></i>
+                    <i class="icon ion-pricetags"></i>
                     <p>群組</p>
                 </div>
-
+                <select ng-model="thisSection.data.group" ng-options="n for n in [] | range:0:255">
+    </select>
             </div>
 
             <div class="item item-icon-left">
