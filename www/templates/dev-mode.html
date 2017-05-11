@@ -1,7 +1,7 @@
 <style>
-.range{
-	padding: 0 11px;
-}
+    .range {
+        padding: 0 11px;
+    }
 </style>
 <ion-view view-title="Develpement">
     <ion-nav-bar class="bar-positive">
@@ -17,20 +17,31 @@
                 <ion-spinner icon="lines" ng-show="btStatus.isLoading"></ion-spinner>
                 <h2>{{btStatus.stat}}</h2>
             </div>
-
-			<div class="item range range-positive">
-            	<i class="icon ion-ios-sunny"></i>
-                <input type="range" name="volume" min="0" max="100" ng-model="thisSection['multiple']">
-                <span > {{thisSection['multiple']}}%</span>
+            <div class="item item-icon-left item-select">
+                <!-- class: item-input -->
+                <div class="input-label">
+                    <i class="icon ion-pricetags"></i>
+                    <p>群組</p>
+                </div>
+                <select ng-model="thisSection.group" ng-options="n for n in [] | range:0:255">
+    </select>
             </div>
+            <div class="item range range-positive">
+                <i class="icon ion-ios-sunny"></i>
+                <input type="range" name="volume" min="0" max="30" ng-model="thisSection['multiple']">
+                <span> {{thisSection['multiple']}}</span>
+            </div>
+
             <div ng-repeat="n in linesNum" class="item range range-positive">
-            	<span>No.{{n+1}}</span>
+                <span>No.{{n+1}}</span>
                 <input type="range" name="volume" min="0" max="100" ng-model="thisSection['lines'][n]">
                 <span>{{thisSection['lines'][n]}}</span>
             </div>
+            <!--
             <button class="button button-block button-dark" ng-click="sendDisableManualCmd()">
                 關閉裝置的手動模式
             </button>
+            -->
             <button class="button button-block button-balanced" ng-click="sendCmd()">
                 傳送目前設置
             </button>

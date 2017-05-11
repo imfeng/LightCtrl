@@ -36,22 +36,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     // setup an abstract state for the tabs directive
         .state('tab', {
-            url: '/tab',
-            abstract: true,
-            templateUrl: 'templates/tabs.html'
-        })
-        /*
-          .state('tab.devMode',{
-            url:'/devMode',
+        url: '/tab',
+        abstract: true,
+        templateUrl: 'templates/tabs.html'
+    })
+
+    .state('tab.devMode', {
+            url: '/devMode',
             views: {
-              'tab-devMode': {
-                templateUrl: 'templates/dev-mode.html',
-                controller: 'devModeCtrl'
-              }
+                'tab-devMode': {
+                    templateUrl: 'templates/dev-mode.html',
+                    controller: 'devModeCtrl'
+                }
             }
 
-            
-          })*/
+
+        })
         // Each tab has its own nav history stack:
         .state('tab.modes', {
             url: '/modes',

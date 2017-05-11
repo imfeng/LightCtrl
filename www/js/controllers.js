@@ -839,6 +839,7 @@ if(!tmpConflict){
             'mode': 0,
             'multiple': 0,
             'lines': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'group': 0
         };
 
         var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
@@ -869,13 +870,18 @@ if(!tmpConflict){
 
             $scope.sendCmd = function() {
                 if (btStatus.currentDeviceStatus) {
-                    var tempLines = "";
-                    for (var i = 0; i < $scope.thisSection['lines'].length; i++) {
+                    let tempLines = "";
+                    let sta = String.fromCharCode(250) + String.fromCharCode(172);
+                    let end = String.fromCharCode(255);
+                    tempLines += sta +
+                        String.fromCharCode($scope.thisSection['multiple']) +
+                        String.fromCharCode($scope.thisSection['group']);
+                    for (let i = 0; i < $scope.thisSection['lines'].length; i++) {
                         tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
                     }
-                    var cmd = String.fromCharCode(-1);
+                    tempLines += end;
                     myBluetooth.sendCmd(cmd, 2); //工程模式
-                    alert(cmd);
+                    //alert(cmd);
                 } else {
                     alert('No Device Connected!');
                 }
