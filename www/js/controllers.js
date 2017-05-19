@@ -751,7 +751,7 @@ if(!tmpConflict){
         $scope.currentMode = currentMode.info;
         $scope.showDefineGroupPopup = function() {
             var defineGroupPopup = $ionicPopup.show({
-                templateUrl: 'templates/popup-defineGroup.html',
+                templateUrl: 'templates/popupDefineGroup.html',
                 title: '設置群組',
                 scope: $scope,
                 buttons: [{
