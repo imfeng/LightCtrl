@@ -803,12 +803,21 @@ if(!tmpConflict){
 
             $scope.sendCmd = function() {
                 if (btStatus.currentDeviceStatus) {
-                    var cmd = String.fromCharCode(250) +
+                    /*var cmd = String.fromCharCode(250) +
                         String.fromCharCode(170) +
                         String.fromCharCode($scope.thisSection.multiple) +
                         String.fromCharCode($scope.thisSection.mode) +
                         String.fromCharCode($scope.thisSection.group) +
-                        String.fromCharCode(255);
+                        String.fromCharCode(255);*/
+                    var cmd = new Uint8Array(
+                        [250, 170,
+                            $scope.thisSection.multiple,
+                            $scope.thisSection.mode,
+                            $scope.thisSection.group,
+                            255
+                        ]
+                    );
+                    //alert(cmd.split('').map(function(char) {return char.charCodeAt(0);}));
                     myBluetooth.sendCmd(cmd, 1);
                 } else {
                     alert('No Device Connected!');
@@ -870,7 +879,7 @@ if(!tmpConflict){
 
             $scope.sendCmd = function() {
                 if (btStatus.currentDeviceStatus) {
-                    let tempLines = "";
+                    /*let tempLines = "";
                     let sta = String.fromCharCode(250) + String.fromCharCode(172);
                     let end = String.fromCharCode(255);
                     tempLines += sta +
@@ -879,9 +888,28 @@ if(!tmpConflict){
                     for (let i = 0; i < $scope.thisSection['lines'].length; i++) {
                         tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
                     }
-                    tempLines += end;
-                    myBluetooth.sendCmd(cmd, 2); //工程模式
-                    //alert(cmd);
+                    tempLines += end;*/
+                    let data = new Uint8Array(
+                        [250, 172,
+                            $scope.thisSection['multiple'],
+                            $scope.thisSection['group'],
+                            $scope.thisSection['lines'][0],
+                            $scope.thisSection['lines'][1],
+                            $scope.thisSection['lines'][2],
+                            $scope.thisSection['lines'][3],
+                            $scope.thisSection['lines'][4],
+                            $scope.thisSection['lines'][5],
+                            $scope.thisSection['lines'][6],
+                            $scope.thisSection['lines'][7],
+                            $scope.thisSection['lines'][8],
+                            $scope.thisSection['lines'][9],
+                            $scope.thisSection['lines'][10],
+                            $scope.thisSection['lines'][11],
+                            255
+                        ]
+                    );
+                    myBluetooth.sendCmd(data, 2); //工程模式
+
                 } else {
                     alert('No Device Connected!');
                 }

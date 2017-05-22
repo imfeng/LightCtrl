@@ -155,7 +155,7 @@ angular.module('starter.services', [])
 
 })
 
-.factory('Sections', function(debugMocks) {
+.factory('Sections', function(debugMocks, uint8) {
 
 
         /*
@@ -440,9 +440,9 @@ angular.module('starter.services', [])
             },
             sectionsToCmd: function(sections) {
                 var curSections = sections;
-                var temp = '';
-                var sta = String.fromCharCode(250) + String.fromCharCode(171);
-                var end = String.fromCharCode(255);
+
+                // var sta = String.fromCharCode(250) + String.fromCharCode(171);
+                //var end = String.fromCharCode(255);
 
                 var date = new Date();
                 /**/
@@ -458,29 +458,26 @@ angular.module('starter.services', [])
 
                 var sectionsLength = curSections.length;
                 /* Clear Sections*/
-                temp +=
-                    sta +
-                    String.fromCharCode(0) +
-                    String.fromCharCode(0) +
-                    String.fromCharCode(0) +
-                    String.fromCharCode(0) +
-                    String.fromCharCode(0) +
-                    String.fromCharCode(170) +
-                    end;
+                let temp = new Uint8Array([
+                    [250, 171, 0, 0, 0, 0, 0, 170, 255]
+                ]);
+
                 for (var i = 0; i < sectionsLength; i++) {
                     if (i > 30) {
                         break;
                     } else {
                         //start Time
-                        temp +=
-                            sta +
-                            String.fromCharCode(curSections[i].multiple) +
-                            String.fromCharCode(curSections[i].mode) +
-                            String.fromCharCode(curSections[i].group) +
-                            String.fromCharCode(curSections[i].setHour) +
-                            String.fromCharCode(curSections[i].setMin) +
-                            String.fromCharCode(i) +
-                            end;
+                        temp = uint8.concat(temp, new Uint8Array(
+                            [250, 171 +
+                                curSections[i].multiple,
+                                curSections[i].mode,
+                                curSections[i].group,
+                                curSections[i].setHour,
+                                curSections[i].setMin,
+                                i,
+                                255
+                            ]
+                        ));
                     };
                 }
                 /*
@@ -495,7 +492,7 @@ angular.module('starter.services', [])
             }
         };
     })
-    .factory('myBluetooth', function(currentMode, $cordovaBluetoothSerial, $timeout, debugMocks) {
+    .factory('myBluetooth', function($cordovaBLE, currentMode, $cordovaBluetoothSerial, $timeout, debugMocks) {
 
         btStatus = {
             btSettingIsEnabled: false,
@@ -505,9 +502,15 @@ angular.module('starter.services', [])
             isNotice: false,
             isLoading: false,
             stat: 'None Stat',
-            myDevices: []
+            myDevices: [],
+            currentConnectedDeviceId: null
         };
-
+        var ledUUID = {
+            //service: '0000FFF0-0000-1000-8000-00805f9b34fb',
+            /*characteristic: '0000FFF3-0000-1000-8000-00805f9b34fb' */
+            service: 'fff0',
+            characteristic: 'fff3'
+        }
 
 
         //var myDevices = [{'name':'null','address':null}];
@@ -580,40 +583,45 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
             },
 
             refreshList: function() {
-
                 btStatus.isSearch = true;
+                let deviceCnt = 0;
+
                 setStatus('Looking for Bluetooth Devices...');
 
-                $cordovaBluetoothSerial.list().then(
-                    function(devices) {
+                ble.startScan([], function(devices) {
 
+                    //alert(devices);
+
+                    if (devices.length === 0) {
                         if (ionic.Platform.is('ios')) { // BLE
-                            for (var i = 0; i < devices.length; i++) {
-                                btStatus.myDevices[i].address = devices[i].uuid;
-                            }
-                        } else {}
-
-                        if (devices.length === 0) {
-                            if (ionic.Platform.is('ios')) { // BLE
-                                setStatus("No Bluetooth Peripherals Discovered.");
-                            } else { // Android
-                                setStatus("Please Pair a Bluetooth Device.");
-                            }
-
-                        } else {
-                            setStatus("Found " + devices.length + " device" + (devices.length === 1 ? "." : "s."));
+                            setStatus("No Bluetooth Peripherals Discovered.");
+                        } else { // Android
+                            setStatus("Please Connect a Bluetooth Device.");
                         }
-                        btStatus.myDevices = devices;
-                        //alert(debugMocks.dump(btStatus.myDevices));
-                        btStatus.isSearch = false;
-                        return devices;
-                    },
-                    function(err) {
-                        btStatus.isSearch = false;
-                        setStatus('$cordovaBluetoothSerial.list Failure!');
-                        return [];
+
+                    } else {
+                        setStatus("Found " + devices.length + " device" + (devices.length === 1 ? "." : "s."));
                     }
-                );
+                    btStatus.myDevices.push(devices);
+                    /*deviceCnt++;
+                    if (ionic.Platform.is('ios')) { // BLE
+                        btStatus.myDevices[deviceCnt].address = devices.id;
+                    } else {}*/
+                    //alert(debugMocks.dump(btStatus.myDevices));
+                    btStatus.isSearch = false;
+                    return devices;
+                }, function(err) {
+                    btStatus.isSearch = false;
+                    setStatus('$cordovaBLE.scan Failure!');
+                    return [];
+                });
+                $timeout(function() {
+                    ble.stopScan(function() {
+
+                    }, function(error) {
+                        setStatus('$cordovaBLE.scan stopScan ERROR!');
+                    });
+                }, 6 * 1000);
             }, // refreshList()
 
             connectDevice: function(index) {
@@ -621,58 +629,57 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
 
                     btStatus.isLoading = true;
                     setStatus('Connecting...');
-                    var address = btStatus.myDevices[index].address;
-                    $cordovaBluetoothSerial.connect(address).then(
-                        function(succ) {
-                            btStatus.currentDeviceName = btStatus.myDevices[index].name;
-                            btStatus.isLoading = false;
-                            btStatus.currentDeviceStatus = true;
-                            setStatus('Connect Success!!');
-                        },
-                        function(err) {
-                            btStatus.currentDeviceName = 'None!';
-                            btStatus.isLoading = false;
-                            btStatus.currentDeviceStatus = false;
-                            setStatus('Disconnected!!');
-                        }
-                    );
+                    var address = btStatus.myDevices[index].id;
+                    ble.connect(address, function(succ) {
+                        btStatus.currentDeviceName = btStatus.myDevices[index].name;
+                        btStatus.currentConnectedDeviceId = btStatus.myDevices[index].id;
+                        btStatus.isLoading = false;
+                        btStatus.currentDeviceStatus = true;
+                        setStatus('Connect Success!!');
+
+                    }, function(err) {
+                        btStatus.currentDeviceName = 'None!';
+                        btStatus.isLoading = false;
+                        btStatus.currentDeviceStatus = false;
+                        setStatus('Disconnected!!');
+                    });
                 } else {}
             },
             disconnectDevice: function() {
                 btStatus.isLoading = true;
                 setStatus('Disconnecting...');
-                $cordovaBluetoothSerial.disconnect().then(
-                    function(succ) {
-                        btStatus.isLoading = false;
-                        btStatus.currentDeviceName = 'None!';
-                        btStatus.currentDeviceStatus = false;
-                        setStatus('Disconnected!!');
-                    },
-                    function(err) {
-                        btStatus.currentDeviceName = 'ERROR!';
-                        btStatus.isLoading = false;
-                        btStatus.currentDeviceStatus = false;
-                        setStatus('ERROR Disconnect!!');
-                    }
-                );
+                ble.disconnect(btStatus.currentConnectedDeviceId, function(succ) {
+                    btStatus.isLoading = false;
+                    btStatus.currentDeviceName = 'None!';
+                    btStatus.currentConnectedDeviceId = 'None!'
+                    btStatus.currentDeviceStatus = false;
+                    setStatus('Disconnected!!');
+                }, function(err) {
+                    btStatus.currentDeviceName = 'ERROR!';
+                    btStatus.currentConnectedDeviceId = 'ERROR!'
+                    btStatus.isLoading = false;
+                    btStatus.currentDeviceStatus = false;
+                    setStatus('ERROR Disconnect!!');
+                });
             },
-            sendCmd: function(cmd, type, mode, pattern) {
+            sendCmd: function(cmd, type = -1, mode = -1, pattern = -1) {
                 if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
                     btStatus.isLoading = true;
                     setStatus('Sending...');
-                    $cordovaBluetoothSerial.write(cmd).then(
+                    ble.write(btStatus.currentConnectedDeviceId,
+                        ledUUID.service,
+                        ledUUID.characteristic, cmd,
                         function(succ) {
                             btStatus.isLoading = false;
                             currentMode.setInfo(type, mode, pattern);
                             alert('Sended!!');
-
+                            alert(cmd);
                         },
                         function(err) {
                             btStatus.isLoading = false;
+                            alert(debugMocks.dump(err));
                             setStatus('Send CMD ERROR!\nplz check bluetooth status');
-                        }
-                    );
-
+                        });
                 } else {
                     currentMode.setInfo(type, mode, pattern);
                     alert('未與裝置連線！請到"Connect"設定！');
@@ -682,16 +689,13 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
                 if (btStatus.currentDeviceStatus && btStatus.btSettingIsEnabled) {
                     btStatus.isLoading = true;
                     setStatus('Sending...');
-                    $cordovaBluetoothSerial.write(cmd).then(
-                        function(succ) {
-                            btStatus.isLoading = false;
-                            alert('Sended!!');
-                        },
-                        function(err) {
-                            btStatus.isLoading = false;
-                            setStatus('Send CMD ERROR!\nplz check bluetooth status');
-                        }
-                    );
+                    ble.write(btStatus.currentConnectedDeviceId, ledUUID.service, ledUUID.characteristic, cmd, function(succ) {
+                        btStatus.isLoading = false;
+                        alert('Sended!!');
+                    }, function(err) {
+                        btStatus.isLoading = false;
+                        setStatus('Send CMD ERROR!\nplz check bluetooth status');
+                    });
 
                 } else {
                     alert('未與裝置連線！請到"Connect"設定！');
@@ -819,8 +823,17 @@ if (ionic.Platform.is('android') || ionic.Platform.is('ios') ) {
             }
         };
     })
-
-.constant('lightItem', [
+    .factory('uint8', function() {
+        return {
+            concat: function(a, b) { // a, b TypedArray of same type
+                var c = new(a.constructor)(a.length + b.length);
+                c.set(a, 0);
+                c.set(b, a.length);
+                return c;
+            }
+        }
+    })
+    .constant('lightItem', [
         { ID: 0, Title: '太陽光5m' },
         { ID: 1, Title: '太陽光10m' },
         { ID: 2, Title: '太陽光15m' },
