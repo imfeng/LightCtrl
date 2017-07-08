@@ -393,7 +393,7 @@ if(!tmpConflict){
             }
 
         }
-        console.log($scope.find.key(1));
+        //console.log($scope.find.key(1));
 
         $scope.changeMode = function() {
             var modePopup = $ionicPopup.show({
@@ -697,6 +697,11 @@ if(!tmpConflict){
                     myBluetooth.sendCmd($scope.data);
 
                 };
+                $scope.discover = function() {
+
+                    myBluetooth.discover();
+
+                };
             });
         } else {}
 
@@ -751,7 +756,7 @@ if(!tmpConflict){
         $scope.currentMode = currentMode.info;
         $scope.showDefineGroupPopup = function() {
             var defineGroupPopup = $ionicPopup.show({
-                templateUrl: 'templates/popupDefineGroup.html',
+                templateUrl: 'templates/popup-defineGroup.html',
                 title: '設置群組',
                 scope: $scope,
                 buttons: [{
@@ -790,10 +795,12 @@ if(!tmpConflict){
             }
             $scope.sendDefineGroup = function() {
                 if (btStatus.currentDeviceStatus) {
-                    var cmd = String.fromCharCode(250) +
-                        String.fromCharCode(161) +
-                        String.fromCharCode($scope.thisGroup.value) +
-                        String.fromCharCode(255);
+                    var cmd = new Uint8Array(
+                        [250, 161,
+                            $scope.thisGroup.value,
+                            255
+                        ]
+                    );
                     myBluetooth.sendCmd(cmd, 1);
                 } else {
                     alert('No Device Connected!');
@@ -812,12 +819,28 @@ if(!tmpConflict){
                     var cmd = new Uint8Array(
                         [250, 170,
                             $scope.thisSection.multiple,
-                            $scope.thisSection.mode,
+                            $scope.thisSection.mode+1,
                             $scope.thisSection.group,
                             255
                         ]
                     );
                     //alert(cmd.split('').map(function(char) {return char.charCodeAt(0);}));
+                    myBluetooth.sendCmd(cmd, 1);
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+            $scope.CorrectionTime = function(){
+                if (btStatus.currentDeviceStatus) {
+                    var date = new Date();
+                    var cmd = new Uint8Array(
+                        [250, 160,
+                            date.getHours(),
+                            date.getMinutes(),
+                            (date.getSeconds()+1)%60,
+                            255
+                        ]
+                    );
                     myBluetooth.sendCmd(cmd, 1);
                 } else {
                     alert('No Device Connected!');

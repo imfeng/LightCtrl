@@ -20,7 +20,7 @@
                     <i class="icon ion-pricetags"></i>
                     <p>群組</p>
                 </div>
-                <select ng-model="thisSection.data.group" ng-options="n for n in [] | range:0:255">
+                <select ng-model="thisSection.data['group']" ng-options="n for n in [] | range:0:255">
     </select>
             </div>
 
@@ -57,7 +57,7 @@
             </div>
             <div class="item range range-positive">
                 <i class="icon ion-ios-lightbulb"></i>
-                <input type="range" name="volume" min="0" max="100" ng-model="thisSection.data['multiple']">
+                <input type="range" name="volume" min="0" max="30" ng-model="thisSection.data['multiple']">
                 <i class="icon ion-ios-lightbulb-outline"></i>
             </div>
 
