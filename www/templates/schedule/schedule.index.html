@@ -1,0 +1,67 @@
+<style>
+.groupCard.card{
+	cursor: pointer;
+	background-color: aliceblue;
+	box-shadow: 3px 3px 8px 2px rgba(0, 0, 0, 0.24);
+}
+.groupCard .row{
+	padding: 0;
+}
+.groupCard-info .item-divider{
+	line-height: 1;
+	font-weight: bold;
+    padding-left: 0.5rem;
+}
+.groupCard-info .item{
+	background-color: transparent;
+	
+}
+.groupCard-nav>div{
+	display: table;
+	width: 95%;
+	height: 80%;
+	text-align: center;
+
+	margin: 10px 7px;
+	border-left: 1px #ddd solid;
+}
+.groupCard-nav i{
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>
+<ion-view view-title="scheduleCtrl">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+		<div ng-repeat="grp in groupsList"  ng-click="goModes(grp.gid)" class="groupCard card" >
+			<div class="row">
+                <div class="col-90 groupCard-info">
+                    <div class="item item-divider">
+                        {{grp.name}}  #{{grp.gid}}
+                    </div>
+                    <div class="item item-text-wrap">
+						<span ng-repeat="member in grp.members">#{{member}}, </span>
+                    </div>
+                </div>
+                <div class="col-10 groupCard-nav">
+                    <div><i class="ion-chevron-right"></i></div>
+                </div>
+            </div>
+		</div>
+
+
+    </ion-content>
+</ion-view>

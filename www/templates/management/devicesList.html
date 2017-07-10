@@ -1,0 +1,56 @@
+<style>
+.devicesList .item-divider span.item-note{
+        color: #222;
+    font-weight: bold;
+}
+.devicesList h2{
+    font-weight: bold;
+}
+.devicesList h2 p{
+    color: #9b9b9b;
+}
+.devicesList .item .badge{
+    top: 25px;
+    right: 16px;
+        font-size: 18px;
+    line-height: 20px;
+}
+
+</style>
+<ion-view view-title="裝置清單">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+        <div class="list list-inset devicesList">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search">
+            </label>
+             <div class="item item-divider">
+                名稱/位址
+                <span class="item-note ">
+                  群組編號
+                </span>
+              </div>
+            <ion-item ng-click="connectDevice($index)" class="item-icon-left">
+                <i class="icon ion-bluetooth"></i>
+                <h2>藍芽１</h2>
+                <p>AA:BB:CC:DD:EE:FF:99</p>
+                
+                <span class="badge badge-calm">#1</span>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>
