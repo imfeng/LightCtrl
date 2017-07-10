@@ -1,0 +1,23 @@
+<style>
+.input-label p {
+    font-size: 16px;
+    color: #444;
+}
+</style>
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">{{currentGrp.data.gname}}#{{currentGrp.data.gid}}</h1>
+        <div class="buttons">
+            <button class="button button-small button-clear icon ion-ios-close-empty" ng-click="closeModal()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <div class="list" ng-click="test()">
+	          <label class="item item-input item-stacked-label">
+			    <span class="input-label">裝置</span>
+			    
+			    <tags-input ng-model="currentGrp.data.members"></tags-input>
+			  </label>
+        </div>
+    </ion-content>
+</ion-modal-view>

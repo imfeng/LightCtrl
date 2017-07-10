@@ -1,6 +1,7 @@
 <style>
 .btntool-add{
     text-align: center;
+    cursor: pointer;
 }
 .btntool-add>a{
     color: cornflowerblue;
@@ -21,6 +22,13 @@
 }
 .groupsList h2{
     font-weight: bold;
+}
+.groupsList ion-item p{
+
+white-space: normal;
+}
+.groupsList ion-item p>span{
+    
 }
 </style>
 <ion-view view-title="群組清單">
@@ -50,17 +58,26 @@
                   群組名稱/成員
                 </span>
               </div>
-
-            <ion-item ng-click="connectDevice($index)" class="item-icon-left item-icon-right">
+        <!--
+            <ion-item ng-click="" class="item-icon-left item-icon-right">
                 <i class="icon">#1</i>
                 <h2>自訂群組1</h2>
                 <p>#sun1, #sun2, #sun3, #sun4, #sun5</p>
                 
                 <i class="icon ion-edit"></i>
+            </ion-item>-->
+            <ion-item ng-repeat="(key,grp) in groupsData" ng-click="modifyGroup({{key}})" class="item-icon-left item-icon-right">
+                <i class="icon">#{{grp.gid}}</i>
+                <h2>{{grp.gname}}</h2>
+                <p>
+                    <span ng-repeat="m in grp.members">#{{m.text}}, </span>
+                </p>
+                    
+                <i class="icon ion-edit"></i>
             </ion-item>
         </div>
         <div class="btntool-add">
-            <a class="button button-icon icon ion-plus-circled"></a>
+            <a ng-click="addGroup()" class="button button-icon icon ion-plus-circled"></a>
         </div>
         
 

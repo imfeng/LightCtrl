@@ -12,83 +12,32 @@ angular.module('starter.controllers', [])
             }
         ]
     })
-    .controller('groupsListCtrl',function($scope, $state, $ionicPopup, $ionicModal){
-        $scope.currentGrp = {
-            //gid:null,
-            data:{}
-        }
-        $ionicModal.fromTemplateUrl('templates/management/modifyGroupPopup.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-          }).then(function(modal) {
-            $scope.modal = modal;
-          });
-          $scope.modifyGroup = function(index) {
-            //$scope.currentGrp.gip = $scope.groupsData[index].gid;
-            $scope.currentGrp.data = $scope.groupsData[index];
-            console.log($scope.groupsData[index]);
-            console.log($scope.currentGrp);
-            $scope.modal.show();
-          };
-          $scope.closeModal = function() {
-            $scope.modal.hide();
-          };
+    .controller('groupsListCtrl',function($scope, $state){
         $scope.groupsData = [
             {
-                'gid':1,
-                'gname':'自訂群組1',
-                'members':[
-                    {'text':'did1'},
-                    {'text':'did2'},
-                    {'text':'did3'}
-                ],
-            },
-            {
-                'gid':2,
-                'gname':'自訂群組2',
-                'members':[
-                    {'text':'did4'},
-                    {'text':'did5'},
-                    {'text':'did6'}
-                ],
+                'gid':'',
+                'gname':'',
+                'members':['did1','did2','did3'],
+            
             }
         ]
-        $scope.addGroup = function(){
-            $scope.groupsData.push({
-                'gid':$scope.groupsData.length+1,
-                'gname':'自訂群組',
-                'members':[],
-            });
-        }
     })
     .controller('scheduleCtrl',function($scope, $state){
         $scope.groupsList = [
             {
                 'gid':1,
                 'name':'自訂名稱1',
-                'members':[
-                    {'text':'did1'},
-                    {'text':'did2'},
-                    {'text':'did3'}
-                ]
+                'members':['did1','did2','did3']
             },
             {
                 'gid':2,
                 'name':'自訂名稱2',
-                'members':[
-                    {'text':'did4'},
-                    {'text':'did5'},
-                    {'text':'did6'}
-                ]
+                'members':['did4','did5','did6']
             },
             {
                 'gid':3,
                 'name':'自訂名稱3',
-                'members':[
-                    {'text':'did7'},
-                    {'text':'did8'},
-                    {'text':'did9'}
-                ]
+                'members':['did4','did5','did6']
             }
         ]
         $scope.goModes = function(groupId){
