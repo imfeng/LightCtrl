@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers
 .config(function($stateProvider, $urlRouterProvider) {
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/modes');
+    $urlRouterProvider.otherwise('/tab/schedule');
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers
     $stateProvider
 
     // setup an abstract state for the tabs directive
-        .state('tab', {
+    .state('tab', {
         url: '/tab',
         abstract: true,
         templateUrl: 'templates/tabs.html'
@@ -51,56 +51,61 @@ angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers
                     controller: 'devModeCtrl'
                 }
             }
-
-
-        })
-        // Each tab has its own nav history stack:
+    })
+    .state('tab.schedule', {
+        url: '/schedule',
+        views: {
+            'tab-modes': {
+                templateUrl: 'templates/schedule/schedule.index.html',
+                controller: 'scheduleCtrl'
+            }
+        }
+    })
         .state('tab.modes', {
-            url: '/modes',
-            views: {
-                'tab-modes': {
-                    templateUrl: 'templates/modes.html',
-                    controller: 'modesCtrl'
-                }
+        url: '/schedule/:gid/modes',
+        views: {
+            'tab-modes': {
+                templateUrl: 'templates/modes.html',
+                controller: 'modesCtrl'
             }
-        })
-        .state('tab.patterns', {
-            url: '/modes/:modeName/patterns',
-            views: {
-                'tab-modes': {
-                    templateUrl: 'templates/patterns.html',
-                    controller: 'patternsCtrl'
-                }
+        }
+    })
+    .state('tab.patterns', {
+        url: '/modes/:modeName/patterns',
+        views: {
+            'tab-modes': {
+                templateUrl: 'templates/patterns.html',
+                controller: 'patternsCtrl'
             }
-        })
-        .state('tab.patternEdit', {
-            url: '/modes/:modeName/patterns/:patternKey',
-            views: {
-                'tab-modes': {
-                    templateUrl: 'templates/patternEdit.html',
-                    controller: 'patternEditCtrl'
-                }
+        }
+    })
+    .state('tab.patternEdit', {
+        url: '/modes/:modeName/patterns/:patternKey',
+        views: {
+            'tab-modes': {
+                templateUrl: 'templates/patternEdit.html',
+                controller: 'patternEditCtrl'
             }
-        })
-        .state('tab.modeEdit', {
-            url: '/modes/edit/:modeName',
-            views: {
-                'tab-modes': {
-                    templateUrl: 'templates/modeEdit.html',
-                    controller: 'modeEditCtrl'
-                }
+        }
+    })
+    .state('tab.modeEdit', {
+        url: '/:gid/modes/edit/:modeName',
+        views: {
+            'tab-modes': {
+                templateUrl: 'templates/modeEdit.html',
+                controller: 'modeEditCtrl'
             }
-        })
-        .state('tab.chart', {
-            url: '/chart',
-            views: {
-                'tab-chart': {
-                    templateUrl: 'templates/chart.html',
-                    controller: 'chartCtrl'
-                }
+        }
+    })
+    .state('tab.chart', {
+        url: '/chart',
+        views: {
+            'tab-chart': {
+                templateUrl: 'templates/chart.html',
+                controller: 'chartCtrl'
             }
-        })
-
+        }
+    })
     .state('tab.manual', {
         url: '/manual',
         views: {
@@ -110,7 +115,33 @@ angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers
             }
         }
     })
-
+    .state('tab.management', {
+        url: '/management',
+        views: {
+            'tab-management': {
+                templateUrl: 'templates/management/management.index.html',
+                controller: 'managementCtrl'
+            }
+        }
+    })
+    .state('tab.devicesList', {
+        url: '/management/devicesList',
+        views: {
+            'tab-management': {
+                templateUrl: 'templates/management/devicesList.html',
+                controller: 'devicesListCtrl'
+            }
+        }
+    })
+    .state('tab.groupsList', {
+        url: '/management/groupsList',
+        views: {
+            'tab-management': {
+                templateUrl: 'templates/management/groupsList.html',
+                controller: 'groupsListCtrl'
+            }
+        }
+    })
     .state('tab.connect', {
         url: '/connect',
         views: {

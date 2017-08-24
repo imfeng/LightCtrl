@@ -1,4 +1,116 @@
 angular.module('starter.controllers', [])
+    .controller('managementCtrl',function($scope, $state){
+        
+    })
+    .controller('devicesListCtrl',function($scope, $state){
+        $scope.devicesData = [
+            {
+                'nameId':'',
+                'name':'',
+                'address':'',
+                'group':''
+            }
+        ]
+    })
+    .controller('groupsListCtrl',function($scope, $state, $ionicPopup, $ionicModal){
+        $scope.currentGrp = {
+            //gid:null,
+            data:{}
+        }
+        $ionicModal.fromTemplateUrl('templates/management/modifyGroupPopup.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function(modal) {
+            $scope.modal = modal;
+          });
+          $scope.modifyGroup = function(index) {
+            //$scope.currentGrp.gip = $scope.groupsData[index].gid;
+            $scope.currentGrp.data = $scope.groupsData[index];
+            console.log($scope.groupsData[index]);
+            console.log($scope.currentGrp);
+            $scope.modal.show();
+          };
+          $scope.closeModal = function() {
+            $scope.modal.hide();
+          };
+        $scope.groupsData = [
+            {
+                'gid':1,
+                'gname':'自訂群組1',
+                'members':[
+                    {'text':'did1'},
+                    {'text':'did2'},
+                    {'text':'did3'}
+                ],
+            },
+            {
+                'gid':2,
+                'gname':'自訂群組2',
+                'members':[
+                    {'text':'did4'},
+                    {'text':'did5'},
+                    {'text':'did6'}
+                ],
+            }
+        ]
+        $scope.addGroup = function(){
+            $scope.groupsData.push({
+                'gid':$scope.groupsData.length+1,
+                'gname':'自訂群組',
+                'members':[],
+            });
+        }
+    })
+    .controller('scheduleCtrl',function(connectBtModal,$scope, $state){
+        $scope.connectBtModal = {
+            btStatus: connectBtModal.btStatus,
+            openModal: function() {
+                connectBtModal
+                    .init()
+                    .then(function(modal) {
+                        modal.show();
+                    });
+            }
+        }
+        $scope.groupsList = [
+            {
+                'gid':1,
+                'name':'自訂名稱1',
+                'members':[
+                    'did1',
+                    'did2',
+                    'did3'
+                ]
+            },
+            {
+                'gid':2,
+                'name':'自訂名稱2',
+                'members':[
+			'did4',
+                    'did5',
+                    'did6'
+                
+]
+            },
+            {
+                'gid':3,
+                'name':'自訂名稱3',
+                'members':[
+			'did7',
+                    'did8',
+                    'did9'
+                
+]
+            }
+        ]
+        $scope.goModes = function(groupId){
+            console.log('goModes: ' + groupId);
+            $state.go('tab.modes', {
+                'gid': groupId
+            })
+        }   
+        
+    })
     .controller('patternEditCtrl', function($timeout, currentMode, connectBtModal, $ionicPopup, $ionicModal, $stateParams, ionicTimePicker, lightItem, myBluetooth, $state, $ionicLoading, $scope, Sections) {
 
         $scope.currentMode = currentMode.info;
@@ -15,15 +127,25 @@ angular.module('starter.controllers', [])
                 }
             }
             /**/
-
-
         $scope.$on('$ionicView.enter', function(e) {
+            $scope.gid = $stateParams.gid;
             $scope.modeName = $stateParams.modeName;
             $scope.patternKey = $stateParams.patternKey;
             $scope.thisMode = Sections.getModesDataById($scope.modeName);
-            $scope.sections = angular.copy($scope.thisMode.patterns[$scope.patternKey].sections);
+            console.log($scope.thisMode.patterns[$scope.patternKey]);
+            if(angular.isUndefined($scope.thisMode.patterns[$scope.patternKey].groups[$scope.gid-1])){
+                $scope.sections = angular.copy($scope.thisMode.patterns[$scope.patternKey].sections);
+                console.log('undefine!!!!');
+            }else{
+                //console.log($scope.thisMode.patterns[$scope.patternKey].groups[$scope.gid-1]);
+                $scope.sections = angular.copy($scope.thisMode.patterns[$scope.patternKey].groups[$scope.gid-1]);
+            }
             if ($scope.patternKey == 0 || $scope.patternKey == 1) {
-                $scope.isCustom = false;
+                if($scope.thisMode['alterable']){
+                    $scope.isCustom = true;
+                }else{
+                    $scope.isCustom = false;
+                }
             } else {
                 $scope.isCustom = true;
             };
@@ -43,9 +165,9 @@ angular.module('starter.controllers', [])
             }
         };
         $scope.addSection = function() {
-            Sections.addParam($scope.sections, $scope.thisMode.modeId);
-            console.log('data after add:');
-            console.log($scope.sections);
+            Sections.addParam($scope.sections, $scope.thisMode.modeId, $scope.gid);
+            //console.log('data after add:');
+            //console.log($scope.sections);
         };
         $scope.saveMode = function() {
             Sections.saveMode($scope.sections, $scope.modeName, $scope.patternKey);
@@ -92,7 +214,7 @@ angular.module('starter.controllers', [])
             });
 
             savePopup.then(function(res) {
-                console.log('Tapped!', res);
+                //console.log('Tapped!', res);
             });
 
             $timeout(function() {
@@ -131,7 +253,7 @@ angular.module('starter.controllers', [])
                         var selectedTime = new Date(val * 1000);
                         $scope.thisSection.data['setHour'] = selectedTime.getUTCHours();
                         $scope.thisSection.data['setMin'] = selectedTime.getUTCMinutes();
-                        console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+                      //  console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
                     }
                 },
                 inputTime: hour * 60 * 60 + min * 60, //Optional
@@ -196,11 +318,13 @@ angular.module('starter.controllers', [])
             }
             /**/
         $scope.modeName = $stateParams.modeName;
+        $scope.gid = $stateParams.gid;
         $scope.mode = Sections.getModesDataById($scope.modeName);
         $scope.goState = function(index) {
             $state.go('tab.patternEdit', {
                 modeName: $scope.modeName,
-                patternKey: index
+                patternKey: index,
+                gid: $scope.gid
             })
         }
 
@@ -357,7 +481,8 @@ if(!tmpConflict){
 
 
     })
-    .controller('modesCtrl', function(currentMode, connectBtModal, $ionicPopup, lightItemKey, $state, $ionicLoading, $scope, Sections, debugMocks, $rootScope) {
+    .controller('modesCtrl', function($stateParams, currentMode, connectBtModal, $ionicPopup, lightItemKey, $state, $ionicLoading, $scope, Sections, debugMocks, $rootScope) {
+        $scope.gid = $stateParams.gid;
 
         /* Bluetooth Status Icon @header-bar*/
         // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
@@ -381,7 +506,8 @@ if(!tmpConflict){
         $scope.goState = function(modeName) {
             //alert('GG');
             $state.go('tab.patterns', {
-                modeName: modeName
+                modeName: modeName,
+                gid: $scope.gid 
             });
         }
         $scope.find = {
@@ -428,7 +554,378 @@ if(!tmpConflict){
 
 
     })
-    .controller('modeEditCtrl', function($timeout, $ionicPopup, ionicTimePicker, lightItem, $ionicModal, $stateParams, $ionicLoading, $scope, Sections, debugMocks, $rootScope) {
+    
+    .controller('connectCtrl', function(myBluetooth, $scope, $cordovaBluetoothSerial, $ionicPlatform, $timeout, Sections, debugMocks) {
+
+
+
+
+        $scope.reset = function() {
+            $scope.data = Sections.allToCmd();
+            var cmd = {
+                'cmd': Sections.allToCmdDEBUG()
+            }
+            $scope.cmdDEBUG = debugMocks.dump(cmd);
+            $scope.cmd = debugMocks.dump($scope.data);
+        }
+
+        $scope.showDelBtn = function() {
+            $scope.ctrl.showDelete = true;
+        }
+
+        $scope.$on('$ionicView.enter', function(e) {
+            $scope.reset();
+        });
+
+        $scope.sectionDatas = Sections.data;
+
+
+        $scope.btStatus = myBluetooth.btStatus;
+
+
+        //$scope.devices = myBluetooth.myDevices;
+
+        console.log($scope.btStatus);
+
+        /* Init */
+        $scope.refreshList = function() {
+            myBluetooth.setStatus('ERROR!');
+            console.log('isNotice:' + $scope.btStatus.isNotice);
+            $scope.cmdDEBUG = Sections.allToCmdDEBUG();
+        };
+        $scope.connectDevice = function() {
+            myBluetooth.setStatus('ERROR!')
+        };
+        $scope.sendCmd = function() {
+            alert($scope.cmd['data']);
+        };
+        //$scope.test = function(test){alert($scope.devices[test].address)};
+
+
+
+        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
+            $ionicPlatform.ready(function() {
+
+                myBluetooth.isEnabled();
+                $scope.enableBluetooth = function() {
+                    myBluetooth.enableBluetooth();
+                    myBluetooth.refreshList();
+                };
+
+                $scope.refreshList = function() {
+                    myBluetooth.refreshList();
+
+                };
+                $scope.connectDevice = function(index) {
+                    myBluetooth.connectDevice(index);
+                };
+                $scope.disconnectDevice = function() {
+                    myBluetooth.disconnectDevice();
+                };
+                $scope.sendCmd = function() {
+
+                    myBluetooth.sendCmd($scope.data);
+
+                };
+                $scope.discover = function() {
+
+                    myBluetooth.discover();
+
+                };
+            });
+        } else {}
+
+
+    })
+
+.controller('manualCtrl', function($timeout, $ionicPopup, currentMode, connectBtModal, myBluetooth, lightItem, $scope, ionicTimePicker, debugMocks) {
+
+        /* Bluetooth Status Icon @header-bar*/
+        // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+        $scope.connectBtModal = {
+                btStatus: connectBtModal.btStatus,
+                openModal: function() {
+                    connectBtModal
+                        .init()
+                        .then(function(modal) {
+                            modal.show();
+                        });
+                }
+            }
+            /**/
+
+
+        $scope.btStatus = myBluetooth.btStatus;
+
+        $scope.lightList = lightItem;
+
+        $scope.thisSection = {
+            'mode': 0,
+            'multiple': 0,
+            'group': 0
+        };
+        console.log('$scope.thisSection');
+        console.log($scope.thisSection.groupid);
+        $scope.thisGroup = {
+            'value': 0
+        }
+        
+            /* 取消關閉手動 201705 */
+            //var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
+
+        $scope.isConnectedFunc = function() {}
+        $scope.sendCmd = function() {
+            if (!btStatus.currentDeviceStatus) {
+                alert('cordova ERROR')
+            };
+        }
+        $scope.sendDisableManualCmd = function() {
+            if (!btStatus.currentDeviceStatus) {
+                alert('cordova ERROR')
+            };
+        }
+        $scope.currentMode = currentMode.info;
+        
+        $scope.showDefineGroupPopup = function() {
+            var defineGroupPopup = $ionicPopup.show({
+                templateUrl: 'templates/popup-defineGroup.html',
+                title: '設置群組',
+                scope: $scope,
+                buttons: [{
+                    text: '取消'
+                }, {
+                    text: '<b>傳送設置</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        //alert(debugMocks.dump($ionicHistory.viewHistory()));
+                        $scope.sendDefineGroup();
+                    }
+                }]
+            });
+
+            defineGroupPopup.then(function(res) {
+                console.log('Tapped!', res);
+            });
+
+            $timeout(function() {
+                defineGroupPopup.close();
+            }, 5000);
+        }
+        $scope.sendDefineGroup = function() {
+                console.log('thisGroup.value' + thisGroup.value);
+            }
+            /* Cordova */
+
+        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
+            $scope.sendDisableManualCmd = function() {
+                if (btStatus.currentDeviceStatus) {
+                    myBluetooth.sendCmd(disableManualCmd, 0);
+                    //myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections),'手動模式','','');
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+            $scope.sendDefineGroup = function() {
+                if (btStatus.currentDeviceStatus) {
+                    var cmd = new Uint8Array(
+                        [250, 161,
+                            $scope.thisGroup.value,
+                            255
+                        ]
+                    );
+                    myBluetooth.sendCmd(cmd, 1);
+                } else {
+                    alert('No Device Connected!');
+                }
+
+            };
+            
+
+            $scope.sendCmd = function() {
+                if (btStatus.currentDeviceStatus) {
+                    /*var cmd = String.fromCharCode(250) +
+                        String.fromCharCode(170) +
+                        String.fromCharCode($scope.thisSection.multiple) +
+                        String.fromCharCode($scope.thisSection.mode) +
+                        String.fromCharCode($scope.thisSection.group) +
+                        String.fromCharCode(255);*/
+                    var cmd = new Uint8Array(
+                        [250, 170,
+                            $scope.thisSection.multiple,
+                            $scope.thisSection.mode+1,
+                            $scope.thisSection.group,
+                            255
+                        ]
+                    );
+                    //alert(cmd.split('').map(function(char) {return char.charCodeAt(0);}));
+                    myBluetooth.sendCmd(cmd, 1);
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+            $scope.CorrectionTime = function(){
+                if (btStatus.currentDeviceStatus) {
+                    var date = new Date();
+                    var cmd = new Uint8Array(
+                        [250, 160,
+                            date.getHours(),
+                            date.getMinutes(),
+                            (date.getSeconds()+1)%60,
+                            255
+                        ]
+                    );
+                    myBluetooth.sendCmd(cmd, 1);
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+        } else {}
+
+    })
+    .controller('devModeCtrl', function($timeout,$ionicPopup,currentMode, connectBtModal, myBluetooth, $scope, ionicTimePicker, debugMocks) {
+
+        $scope.linesNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+$scope.thisFanSpeed = {
+            'value': 0
+        }
+        $scope.showFanSpeedPopup = function() {
+            var defineGroupPopup = $ionicPopup.show({
+                templateUrl: 'templates/popup-fanSpeed.html',
+                title: '設置群組',
+                scope: $scope,
+                buttons: [{
+                    text: '取消'
+                }, {
+                    text: '<b>傳送設置</b>',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        //alert(debugMocks.dump($ionicHistory.viewHistory()));
+                        $scope.sendFanSpeed();
+                    }
+                }]
+            });
+
+            defineGroupPopup.then(function(res) {
+                console.log('Tapped!', res);
+            });
+
+        }
+        $scope.sendFanSpeed = function() {
+                if (btStatus.currentDeviceStatus) {
+                    var cmd = new Uint8Array(
+                        [250, 173,
+                            $scope.thisFanSpeed.value,
+                            255
+                        ]
+                    );
+                    myBluetooth.sendCmd(cmd, 1);
+                } else {
+                    alert('No Device Connected!');
+                }
+
+            };
+        /* Bluetooth Status Icon @header-bar*/
+        // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
+        $scope.connectBtModal = {
+            btStatus: connectBtModal.btStatus,
+            openModal: function() {
+                connectBtModal
+                    .init()
+                    .then(function(modal) {
+                        modal.show();
+                    });
+            }
+        }
+        $scope.btStatus = myBluetooth.btStatus;
+
+        $scope.thisSection = {
+            'mode': 0,
+            'multiple': 0,
+            'lines': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'group': 0
+        };
+
+        var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
+        $scope.isConnectedFunc = function() {}
+        $scope.sendCmd = function() {
+            if (!btStatus.currentDeviceStatus) {
+                alert('cordova ERROR')
+            };
+        }
+        $scope.sendDisableManualCmd = function() {
+            if (!btStatus.currentDeviceStatus) {
+                alert('cordova ERROR')
+            };
+        }
+        $scope.currentMode = currentMode.info;
+
+        /* Cordova */
+
+        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
+            $scope.sendDisableManualCmd = function() {
+                if (btStatus.currentDeviceStatus) {
+                    myBluetooth.sendCmd(disableManualCmd, 0);
+                    //myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections),'手動模式','','');
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+
+            $scope.sendCmd = function() {
+                if (btStatus.currentDeviceStatus) {
+                    /*let tempLines = "";
+                    let sta = String.fromCharCode(250) + String.fromCharCode(172);
+                    let end = String.fromCharCode(255);
+                    tempLines += sta +
+                        String.fromCharCode($scope.thisSection['multiple']) +
+                        String.fromCharCode($scope.thisSection['group']);
+                    for (let i = 0; i < $scope.thisSection['lines'].length; i++) {
+                        tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
+                    }
+                    tempLines += end;*/
+                    let data = new Uint8Array(
+                        [250, 172,
+                            $scope.thisSection['multiple'],
+                            $scope.thisSection['group'],
+                            $scope.thisSection['lines'][0],
+                            $scope.thisSection['lines'][1],
+                            $scope.thisSection['lines'][2],
+                            $scope.thisSection['lines'][3],
+                            $scope.thisSection['lines'][4],
+                            $scope.thisSection['lines'][5],
+                            $scope.thisSection['lines'][6],
+                            $scope.thisSection['lines'][7],
+                            $scope.thisSection['lines'][8],
+                            $scope.thisSection['lines'][9],
+                            $scope.thisSection['lines'][10],
+                            $scope.thisSection['lines'][11],
+                            255
+                        ]
+                    );
+                    myBluetooth.sendCmd(data, 2); //工程模式
+
+                } else {
+                    alert('No Device Connected!');
+                }
+            }
+
+        } else {
+            $scope.sendCmd = function() {
+                var tempLines = "";
+                for (var i = 0; i < $scope.thisSection['lines'].length; i++) {
+                    tempLines += $scope.thisSection['lines'][i].toString() + ",";
+                }
+                var cmd = (65).toString() + ',' + tempLines + (11).toString() + ',' + (22).toString() + ',90';
+                console.log("CMD:\n");
+                alert(debugMocks.dump(cmd));
+            }
+
+        }
+
+    });
+
+/*
+.controller('modeEditCtrl', function($timeout, $ionicPopup, ionicTimePicker, lightItem, $ionicModal, $stateParams, $ionicLoading, $scope, Sections, debugMocks, $rootScope) {
 
 
 
@@ -625,330 +1122,4 @@ if(!tmpConflict){
 
 
     })
-    .controller('connectCtrl', function(myBluetooth, $scope, $cordovaBluetoothSerial, $ionicPlatform, $timeout, Sections, debugMocks) {
-
-
-
-
-        $scope.reset = function() {
-            $scope.data = Sections.allToCmd();
-            var cmd = {
-                'cmd': Sections.allToCmdDEBUG()
-            }
-            $scope.cmdDEBUG = debugMocks.dump(cmd);
-            $scope.cmd = debugMocks.dump($scope.data);
-        }
-
-        $scope.showDelBtn = function() {
-            $scope.ctrl.showDelete = true;
-        }
-
-        $scope.$on('$ionicView.enter', function(e) {
-            $scope.reset();
-        });
-
-        $scope.sectionDatas = Sections.data;
-
-
-        $scope.btStatus = myBluetooth.btStatus;
-
-
-        //$scope.devices = myBluetooth.myDevices;
-
-        console.log($scope.btStatus);
-
-        /* Init */
-        $scope.refreshList = function() {
-            myBluetooth.setStatus('ERROR!');
-            console.log('isNotice:' + $scope.btStatus.isNotice);
-            $scope.cmdDEBUG = Sections.allToCmdDEBUG();
-        };
-        $scope.connectDevice = function() {
-            myBluetooth.setStatus('ERROR!')
-        };
-        $scope.sendCmd = function() {
-            alert($scope.cmd['data']);
-        };
-        //$scope.test = function(test){alert($scope.devices[test].address)};
-
-
-
-        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
-            $ionicPlatform.ready(function() {
-
-                myBluetooth.isEnabled();
-                $scope.enableBluetooth = function() {
-                    myBluetooth.enableBluetooth();
-                    myBluetooth.refreshList();
-                };
-
-                $scope.refreshList = function() {
-                    myBluetooth.refreshList();
-
-                };
-                $scope.connectDevice = function(index) {
-                    myBluetooth.connectDevice(index);
-                };
-                $scope.disconnectDevice = function() {
-                    myBluetooth.disconnectDevice();
-                };
-                $scope.sendCmd = function() {
-
-                    myBluetooth.sendCmd($scope.data);
-
-                };
-                $scope.discover = function() {
-
-                    myBluetooth.discover();
-
-                };
-            });
-        } else {}
-
-
-    })
-
-.controller('manualCtrl', function($timeout, $ionicPopup, currentMode, connectBtModal, myBluetooth, lightItem, $scope, ionicTimePicker, debugMocks) {
-
-        /* Bluetooth Status Icon @header-bar*/
-        // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
-        $scope.connectBtModal = {
-                btStatus: connectBtModal.btStatus,
-                openModal: function() {
-                    connectBtModal
-                        .init()
-                        .then(function(modal) {
-                            modal.show();
-                        });
-                }
-            }
-            /**/
-
-
-        $scope.btStatus = myBluetooth.btStatus;
-
-        $scope.lightList = lightItem;
-
-        $scope.thisSection = {
-            'mode': 0,
-            'multiple': 0,
-            'group': 0
-        };
-        console.log('$scope.thisSection');
-        console.log($scope.thisSection.groupid);
-        $scope.thisGroup = {
-                'value': 0
-            }
-            /* 取消關閉手動 201705 */
-            //var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
-
-        $scope.isConnectedFunc = function() {}
-        $scope.sendCmd = function() {
-            if (!btStatus.currentDeviceStatus) {
-                alert('cordova ERROR')
-            };
-        }
-        $scope.sendDisableManualCmd = function() {
-            if (!btStatus.currentDeviceStatus) {
-                alert('cordova ERROR')
-            };
-        }
-        $scope.currentMode = currentMode.info;
-        $scope.showDefineGroupPopup = function() {
-            var defineGroupPopup = $ionicPopup.show({
-                templateUrl: 'templates/popup-defineGroup.html',
-                title: '設置群組',
-                scope: $scope,
-                buttons: [{
-                    text: '取消'
-                }, {
-                    text: '<b>傳送設置</b>',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        //alert(debugMocks.dump($ionicHistory.viewHistory()));
-                        $scope.sendDefineGroup();
-                    }
-                }]
-            });
-
-            defineGroupPopup.then(function(res) {
-                console.log('Tapped!', res);
-            });
-
-            $timeout(function() {
-                defineGroupPopup.close();
-            }, 5000);
-        }
-        $scope.sendDefineGroup = function() {
-                console.log('thisGroup.value' + thisGroup.value);
-            }
-            /* Cordova */
-
-        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
-            $scope.sendDisableManualCmd = function() {
-                if (btStatus.currentDeviceStatus) {
-                    myBluetooth.sendCmd(disableManualCmd, 0);
-                    //myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections),'手動模式','','');
-                } else {
-                    alert('No Device Connected!');
-                }
-            }
-            $scope.sendDefineGroup = function() {
-                if (btStatus.currentDeviceStatus) {
-                    var cmd = new Uint8Array(
-                        [250, 161,
-                            $scope.thisGroup.value,
-                            255
-                        ]
-                    );
-                    myBluetooth.sendCmd(cmd, 1);
-                } else {
-                    alert('No Device Connected!');
-                }
-
-            };
-
-            $scope.sendCmd = function() {
-                if (btStatus.currentDeviceStatus) {
-                    /*var cmd = String.fromCharCode(250) +
-                        String.fromCharCode(170) +
-                        String.fromCharCode($scope.thisSection.multiple) +
-                        String.fromCharCode($scope.thisSection.mode) +
-                        String.fromCharCode($scope.thisSection.group) +
-                        String.fromCharCode(255);*/
-                    var cmd = new Uint8Array(
-                        [250, 170,
-                            $scope.thisSection.multiple,
-                            $scope.thisSection.mode+1,
-                            $scope.thisSection.group,
-                            255
-                        ]
-                    );
-                    //alert(cmd.split('').map(function(char) {return char.charCodeAt(0);}));
-                    myBluetooth.sendCmd(cmd, 1);
-                } else {
-                    alert('No Device Connected!');
-                }
-            }
-            $scope.CorrectionTime = function(){
-                if (btStatus.currentDeviceStatus) {
-                    var date = new Date();
-                    var cmd = new Uint8Array(
-                        [250, 160,
-                            date.getHours(),
-                            date.getMinutes(),
-                            (date.getSeconds()+1)%60,
-                            255
-                        ]
-                    );
-                    myBluetooth.sendCmd(cmd, 1);
-                } else {
-                    alert('No Device Connected!');
-                }
-            }
-        } else {}
-
-    })
-    .controller('devModeCtrl', function(currentMode, connectBtModal, myBluetooth, $scope, ionicTimePicker, debugMocks) {
-
-        $scope.linesNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-        /* Bluetooth Status Icon @header-bar*/
-        // <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBt.currentDeviceStatus}" ng-click="connectBt.openmodal()">
-        $scope.connectBtModal = {
-            btStatus: connectBtModal.btStatus,
-            openModal: function() {
-                connectBtModal
-                    .init()
-                    .then(function(modal) {
-                        modal.show();
-                    });
-            }
-        }
-        $scope.btStatus = myBluetooth.btStatus;
-
-        $scope.thisSection = {
-            'mode': 0,
-            'multiple': 0,
-            'lines': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            'group': 0
-        };
-
-        var disableManualCmd = String.fromCharCode(240) + String.fromCharCode(0) + String.fromCharCode(0) + String.fromCharCode(255);
-        $scope.isConnectedFunc = function() {}
-        $scope.sendCmd = function() {
-            if (!btStatus.currentDeviceStatus) {
-                alert('cordova ERROR')
-            };
-        }
-        $scope.sendDisableManualCmd = function() {
-            if (!btStatus.currentDeviceStatus) {
-                alert('cordova ERROR')
-            };
-        }
-        $scope.currentMode = currentMode.info;
-
-        /* Cordova */
-
-        if (ionic.Platform.is('android') || ionic.Platform.is('ios')) {
-            $scope.sendDisableManualCmd = function() {
-                if (btStatus.currentDeviceStatus) {
-                    myBluetooth.sendCmd(disableManualCmd, 0);
-                    //myBluetooth.sendCmd(Sections.sectionsToCmd($scope.sections),'手動模式','','');
-                } else {
-                    alert('No Device Connected!');
-                }
-            }
-
-            $scope.sendCmd = function() {
-                if (btStatus.currentDeviceStatus) {
-                    /*let tempLines = "";
-                    let sta = String.fromCharCode(250) + String.fromCharCode(172);
-                    let end = String.fromCharCode(255);
-                    tempLines += sta +
-                        String.fromCharCode($scope.thisSection['multiple']) +
-                        String.fromCharCode($scope.thisSection['group']);
-                    for (let i = 0; i < $scope.thisSection['lines'].length; i++) {
-                        tempLines += String.fromCharCode($scope.thisSection['lines'][i]);
-                    }
-                    tempLines += end;*/
-                    let data = new Uint8Array(
-                        [250, 172,
-                            $scope.thisSection['multiple'],
-                            $scope.thisSection['group'],
-                            $scope.thisSection['lines'][0],
-                            $scope.thisSection['lines'][1],
-                            $scope.thisSection['lines'][2],
-                            $scope.thisSection['lines'][3],
-                            $scope.thisSection['lines'][4],
-                            $scope.thisSection['lines'][5],
-                            $scope.thisSection['lines'][6],
-                            $scope.thisSection['lines'][7],
-                            $scope.thisSection['lines'][8],
-                            $scope.thisSection['lines'][9],
-                            $scope.thisSection['lines'][10],
-                            $scope.thisSection['lines'][11],
-                            255
-                        ]
-                    );
-                    myBluetooth.sendCmd(data, 2); //工程模式
-
-                } else {
-                    alert('No Device Connected!');
-                }
-            }
-
-        } else {
-            $scope.sendCmd = function() {
-                var tempLines = "";
-                for (var i = 0; i < $scope.thisSection['lines'].length; i++) {
-                    tempLines += $scope.thisSection['lines'][i].toString() + ",";
-                }
-                var cmd = (65).toString() + ',' + tempLines + (11).toString() + ',' + (22).toString() + ',90';
-                console.log("CMD:\n");
-                alert(debugMocks.dump(cmd));
-            }
-
-        }
-
-    });
+*/

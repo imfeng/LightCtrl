@@ -1,0 +1,85 @@
+<style>
+.btntool-add{
+    text-align: center;
+    cursor: pointer;
+}
+.btntool-add>a{
+    color: cornflowerblue;
+}
+.groupsList {
+    margin-bottom: 5px;
+}
+.groupsList .item.item-divider{
+    padding: 8px 14px;
+    font-weight: bold;
+}
+.groupsList .item-divider span.item-note{
+    color: #222;
+    
+}
+.groupsList .item-icon-left .icon,.groupsList .item-icon-right .icon{
+    font-size: 20px;
+}
+.groupsList h2{
+    font-weight: bold;
+}
+.groupsList ion-item p{
+
+white-space: normal;
+}
+.groupsList ion-item p>span{
+    
+}
+</style>
+<ion-view view-title="群組清單">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+        <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-bluetooth" ng-class="{isBtConnected: connectBtModal.btStatus.currentDeviceStatus}" ng-click="connectBtModal.openModal()"></button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+        <div class="list list-inset groupsList">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search">
+            </label>
+             <div class="item item-divider row">
+                <span class="col-20">編號</span>
+                <span class="col-80">
+                  群組名稱/成員
+                </span>
+              </div>
+        <!--
+            <ion-item ng-click="" class="item-icon-left item-icon-right">
+                <i class="icon">#1</i>
+                <h2>自訂群組1</h2>
+                <p>#sun1, #sun2, #sun3, #sun4, #sun5</p>
+                
+                <i class="icon ion-edit"></i>
+            </ion-item>-->
+            <ion-item ng-repeat="(key,grp) in groupsData" ng-click="modifyGroup({{key}})" class="item-icon-left item-icon-right">
+                <i class="icon">#{{grp.gid}}</i>
+                <h2>{{grp.gname}}</h2>
+                <p>
+                    <span ng-repeat="m in grp.members">#{{m.text}}, </span>
+                </p>
+                    
+                <i class="icon ion-edit"></i>
+            </ion-item>
+        </div>
+        <div class="btntool-add">
+            <a ng-click="addGroup()" class="button button-icon icon ion-plus-circled"></a>
+        </div>
+        
+
+    </ion-content>
+</ion-view>
