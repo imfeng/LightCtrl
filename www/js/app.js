@@ -7,10 +7,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers', 'starter.services', 'ionic-timepicker', 'ngCordova', 'chart.js', 'DEBUG'])
 
-.run(function($rootScope,$ionicPlatform) {
+.run(function($state,$timeout,$rootScope,$ionicPlatform) {
     $rootScope.isdebug=false;
     $ionicPlatform.ready(function() {
-        
+        $timeout(function() {
+            $state.go('tab.devMode');
+        }, 3000);
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -28,7 +30,7 @@ angular.module('starter', ['ionic', 'ngCordovaBluetoothLE', 'starter.controllers
 .config(function($stateProvider, $urlRouterProvider) {
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/schedule');
+    $urlRouterProvider.otherwise('/tab/devMode');
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
